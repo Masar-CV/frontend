@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import cvImage from '../../assets/images/cv.svg';
 import './Login.css';
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <div className="login-page">
       <div className="login-left">
@@ -59,7 +60,7 @@ const Login = () => {
               </Link>
             </div>
 
-            <button type="submit" className="btn btn-primary">
+            <button type="button" className="btn btn-primary" onClick={() => navigate('/dashboard')}>
               Login
             </button>
 

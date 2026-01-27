@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import Home from './pages/home/Home';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -12,6 +13,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Home Page - First Screen */}
+        <Route path="/" element={<Home />} />
+
         {/* Public Routes - No Layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -24,12 +28,9 @@ function App() {
           <Route path="job-tracker" element={<JobTracker />} />
           <Route path="resources" element={<Resources />} />
         </Route>
-
-        {/* Default redirect to login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
         
-        {/* 404 - redirect to dashboard */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        {/* 404 - redirect to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

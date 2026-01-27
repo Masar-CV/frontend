@@ -1,18 +1,60 @@
+import { Link, NavLink } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
   return (
     <header className="navbar">
-      <div className="navbar-content">
-        <h1 className="navbar-logo">Masar</h1>
+      <div className="navbar-inner">
+        {/* Left: Logo */}
+        <div className="navbar-logo">
+          <Link to="/">MASAR</Link>
+        </div>
+
+        {/* Center: Main navigation */}
         <nav className="navbar-nav">
-          <a href="/dashboard">Dashboard</a>
-          <a href="/notifications">Notifications</a>
+          <NavLink to="/" className="nav-link">
+            Home
+          </NavLink>
+
+          <div className="nav-item-with-menu">
+            <button className="nav-link nav-button" type="button">
+              Resources <span className="nav-caret">▾</span>
+            </button>
+            {/* Optional dropdown (stub) */}
+            {/* <div className="nav-dropdown">
+              <Link to="/dashboard/resources" className="nav-dropdown-item">
+                Library
+              </Link>
+            </div> */}
+          </div>
+
+          <div className="nav-item-with-menu">
+            <button className="nav-link nav-button" type="button">
+              Services <span className="nav-caret">▾</span>
+            </button>
+          </div>
+
+          <NavLink to="/dashboard" className="nav-link">
+            Dashboard
+          </NavLink>
+
+          <NavLink to="/dashboard/job-tracker" className="nav-link">
+            Job Tracker
+          </NavLink>
         </nav>
+
+        {/* Right: Auth actions */}
+        <div className="navbar-actions">
+          <Link to="/login" className="nav-login-link">
+            Log In
+          </Link>
+          <Link to="/register" className="nav-cta-button">
+            Get Started
+          </Link>
+        </div>
       </div>
     </header>
   );
 };
 
 export default Navbar;
-

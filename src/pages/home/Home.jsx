@@ -126,7 +126,7 @@ const Home = () => {
               <Link to="/register" className="btn-get-started">
                 Get Started <span className="btn-arrow">→</span>
               </Link>
-              <Link to="/dashboard" className="btn-explore">
+              <Link to="" className="btn-explore">
                 Explore Features
               </Link>
             </div>

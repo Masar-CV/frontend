@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
 import FeatureCard from '../../components/ui/FeatureCard';
 import colImage from '../../assets/images/Col.png';
 import vectorLine from '../../assets/images/Vector 14.png';
@@ -229,6 +230,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

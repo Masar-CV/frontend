@@ -17,7 +17,7 @@ const Navbar = () => {
           </NavLink>
 
           <div className="nav-item-with-menu">
-          <NavLink to="" className="nav-link">
+          <NavLink to="/dashboard/resources" className="nav-link">
           Resources
           </NavLink>
             {/* Optional dropdown (stub) */}
@@ -33,26 +33,26 @@ const Navbar = () => {
               Services <span className="nav-caret">▾</span>
             </button>
             <div className="nav-dropdown">
-              <Link to="" className="nav-dropdown-item">
+              <Link to="/dashboard/mock-interview" className="nav-dropdown-item">
                 Mock Interview
               </Link>
-              <Link to="" className="nav-dropdown-item">
+              <Link to="/dashboard/cv-analysis" className="nav-dropdown-item">
                 CV Analysis
               </Link>
-              <Link to="" className="nav-dropdown-item">
+              <Link to="/dashboard/resources" className="nav-dropdown-item">
                 Career Development
               </Link>
             </div>
           </div>
 
-          <NavLink to="" className="nav-link">
+          <NavLink to="/dashboard" className="nav-link">
             Dashboard
           </NavLink>
 
-          <NavLink to="" className="nav-link">
+          <NavLink to="/dashboard/job-tracker" className="nav-link">
             Job Tracker
           </NavLink>
-          <NavLink to="" className="nav-link">
+          <NavLink to="/cv-optimization" className="nav-link">
             CV Optimization
           </NavLink>
         </nav>

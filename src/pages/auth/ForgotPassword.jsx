@@ -214,7 +214,7 @@ const ForgotPassword = () => {
                   disabled={loading}
                   required
                 />
-                <small style={{ color: '#666', marginTop: '5px' }}>
+                <small>
                   Check your email for the 6-digit code
                 </small>
               </div>
@@ -260,7 +260,7 @@ const ForgotPassword = () => {
                   disabled={loading}
                   required
                 />
-                <small style={{ color: '#666', marginTop: '5px' }}>
+                <small>
                   Minimum 8 characters
                 </small>
               </div>

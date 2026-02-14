@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout';
 import Home from './pages/home/Home';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import ForgotPassword from './pages/auth/ForgotPassword';
 import Dashboard from './pages/dashboard/Dashboard';
 import CVAnalysis from './pages/cv-analysis/CVAnalysis';
 import CVOptimization from './pages/cv-optimization/CVOptimization';
@@ -21,6 +22,7 @@ function App() {
         {/* Public Routes - No Layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/cv-optimization" element={<CVOptimization />} />
         <Route path="/cv-optimization/results" element={<CVOptimizationResults />} />
 

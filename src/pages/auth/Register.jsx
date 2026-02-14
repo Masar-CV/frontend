@@ -1,8 +1,113 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import authService from '../../services/authService';
+import errorHandler from '../../utils/errorHandler';
+import { SUCCESS_MESSAGES, USER_ROLES } from '../../utils/constants';
 import cvImage from '../../assets/images/cv.svg';
 import './Register.css';
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    role: USER_ROLES.STUDENT,
+  });
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  /**
+   * Handle input field changes
+   */
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    // Clear error when user starts typing
+    if (error) setError('');
+  };
+
+  /**
+   * Validate form data
+   */
+  const validateForm = () => {
+    if (!formData.fullName.trim()) {
+      setError('Full name is required');
+      return false;
+    }
+    if (formData.fullName.trim().length < 2) {
+      setError('Full name must be at least 2 characters');
+      return false;
+    }
+    if (!/^[a-zA-Z\s]+$/.test(formData.fullName)) {
+      setError('Full name can only contain letters and spaces');
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setError('Email is required');
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setError('Please enter a valid email');
+      return false;
+    }
+    if (!formData.password) {
+      setError('Password is required');
+      return false;
+    }
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return false;
+    }
+    if (!termsAccepted) {
+      setError('You must accept Terms & Privacy');
+      return false;
+    }
+    return true;
+  };
+
+  /**
+   * Handle form submission
+   */
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Call auth service
+      const response = await authService.register({
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+      });
+
+      // Show success message (optional)
+      console.log(SUCCESS_MESSAGES.REGISTER_SUCCESS);
+
+      // Redirect to home
+      navigate('/');
+    } catch (err) {
+      // Get user-friendly error message
+      const userMessage = errorHandler.getUiMessage(err);
+      setError(userMessage);
+      errorHandler.logError('Register Component', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="register-page">
       <div className="register-left">
@@ -29,9 +134,10 @@ const Register = () => {
             </p>
           </div>
 
-          <form className="register-form">
+          <form className="register-form" onSubmit={handleRegister}>
+            {/* Social Login Buttons */}
             <div className="social-buttons">
-              <button type="button" className="btn btn-social">
+              <button type="button" className="btn btn-social" disabled={loading}>
                 <svg className="social-icon" viewBox="0 0 24 24">
                   <path
                     fill="#4285F4"
@@ -53,7 +159,7 @@ const Register = () => {
                 Sign in with Google
               </button>
 
-              <button type="button" className="btn btn-social">
+              <button type="button" className="btn btn-social" disabled={loading}>
                 <svg className="social-icon" viewBox="0 0 24 24" fill="#1877F2">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
@@ -67,38 +173,81 @@ const Register = () => {
               <div className="separator-line"></div>
             </div>
 
+            {/* Error Message */}
+            {error && (
+              <div className="form-error" style={{ color: '#dc3545', marginBottom: '16px' }}>
+                {error}
+              </div>
+            )}
+
+            {/* Full Name Field */}
             <div className="form-group">
               <input
                 type="text"
-                placeholder="Name"
+                name="fullName"
+                placeholder="Full Name"
                 className="form-input"
+                value={formData.fullName}
+                onChange={handleInputChange}
+                disabled={loading}
+                required
               />
             </div>
 
+            {/* Email Field */}
             <div className="form-group">
               <input
                 type="email"
+                name="email"
                 placeholder="Email address"
                 className="form-input"
+                value={formData.email}
+                onChange={handleInputChange}
+                disabled={loading}
+                required
               />
             </div>
 
+            {/* Password Field */}
             <div className="form-group">
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
                 className="form-input"
+                value={formData.password}
+                onChange={handleInputChange}
+                disabled={loading}
+                required
               />
             </div>
 
+            {/* Role Field */}
             <div className="form-group">
-              <Link to="/forgot-password" className="forgot-password-link">
-                Forgot Password?
-              </Link>
+              <select
+                name="role"
+                className="form-input"
+                value={formData.role}
+                onChange={handleInputChange}
+                disabled={loading}
+              >
+                <option value={USER_ROLES.STUDENT}>{USER_ROLES.STUDENT}</option>
+                <option value={USER_ROLES.ADMIN}>{USER_ROLES.ADMIN}</option>
+              </select>
             </div>
 
+            {/* Terms & Privacy Checkbox */}
             <label className="checkbox-label">
-              <input type="checkbox" className="checkbox-input" />
+              <input 
+                type="checkbox" 
+                className="checkbox-input"
+                checked={termsAccepted}
+                onChange={(e) => {
+                  setTermsAccepted(e.target.checked);
+                  if (error) setError('');
+                }}
+                disabled={loading}
+              />
               <span>
                 I agree to the{' '}
                 <Link to="/terms" className="terms-link">
@@ -107,10 +256,16 @@ const Register = () => {
               </span>
             </label>
 
-            <button type="submit" className="btn btn-primary">
-              Sign Up
+            {/* Submit Button */}
+            <button 
+              type="submit" 
+              className="btn btn-primary"
+              disabled={loading}
+            >
+              {loading ? 'Creating Account...' : 'Sign Up'}
             </button>
 
+            {/* Login Link */}
             <div className="form-footer">
               Have an account ?{' '}
               <Link to="/login" className="form-link">

@@ -1,19 +1,12 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+/**
+ * API Service - Main entry point for all API communication
+ * Exports the configured HTTP client and auth service
+ */
 
-const api = {
-  get: async (endpoint) => {
-    // GET request logic will be implemented here
-  },
-  post: async (endpoint, data) => {
-    // POST request logic will be implemented here
-  },
-  put: async (endpoint, data) => {
-    // PUT request logic will be implemented here
-  },
-  delete: async (endpoint) => {
-    // DELETE request logic will be implemented here
-  },
-};
+import httpClient from './httpClient';
+import authService from './authService';
 
-export default api;
+export { httpClient, authService };
+
+export default httpClient;
 

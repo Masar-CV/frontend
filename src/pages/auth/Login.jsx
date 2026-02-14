@@ -136,7 +136,7 @@ const Login = () => {
           <form className="login-form" onSubmit={handleLogin}>
             {/* Error Message */}
             {error && (
-              <div className="form-error" style={{ color: '#dc3545', marginBottom: '16px' }}>
+              <div className="form-error">
                 {error}
               </div>
             )}

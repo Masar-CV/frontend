@@ -222,20 +222,6 @@ const Register = () => {
               />
             </div>
 
-            {/* Role Field */}
-            <div className="form-group">
-              <select
-                name="role"
-                className="form-input"
-                value={formData.role}
-                onChange={handleInputChange}
-                disabled={loading}
-              >
-                <option value={USER_ROLES.STUDENT}>{USER_ROLES.STUDENT}</option>
-                <option value={USER_ROLES.ADMIN}>{USER_ROLES.ADMIN}</option>
-              </select>
-            </div>
-
             {/* Terms & Privacy Checkbox */}
             <label className="checkbox-label">
               <input 

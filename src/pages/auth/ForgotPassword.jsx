@@ -153,14 +153,14 @@ const ForgotPassword = () => {
 
           {/* Success Message */}
           {successMessage && (
-            <div className="form-success" style={{ color: '#28a745', marginBottom: '16px', padding: '10px', backgroundColor: '#d4edda', borderRadius: '4px' }}>
+            <div className="form-success">
               {successMessage}
             </div>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className="form-error" style={{ color: '#dc3545', marginBottom: '16px', padding: '10px', backgroundColor: '#f8d7da', borderRadius: '4px' }}>
+            <div className="form-error">
               {error}
             </div>
           )}
@@ -236,7 +236,6 @@ const ForgotPassword = () => {
                   setSuccessMessage('');
                 }}
                 disabled={loading}
-                style={{ marginTop: '10px' }}
               >
                 Back to Email
               </button>

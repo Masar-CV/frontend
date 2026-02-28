@@ -140,6 +140,67 @@
     background-color: #1d4ed8;
   }
   
+  /* User Actions (Notification & Profile) */
+  .navbar-user-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: 0.5rem;
+  }
+  
+  .notification-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .notification-btn:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-avatar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #2563eb;
+    border-radius: 50%;
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .profile-avatar-btn:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+  }
+  
   /* Basic responsiveness */
   @media (max-width: 1024px) {
     .navbar-inner {
@@ -158,6 +219,35 @@
     }
   
     .navbar-actions {
-      gap: 0.75rem;
+      gap: 0.5rem;
+    }
+  
+    .nav-login-link,
+    .nav-cta-button {
+      display: none;
+    }
+  
+    .navbar-user-actions {
+      margin-left: 0;
+    }
+  
+    .notification-btn,
+    .profile-avatar-btn {
+      width: 36px;
+      height: 36px;
+    }
+  
+    .notification-btn svg,
+    .profile-avatar-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+  
+    .notification-badge {
+      width: 16px;
+      height: 16px;
+      font-size: 0.625rem;
+      top: 2px;
+      right: 2px;
     }
   }

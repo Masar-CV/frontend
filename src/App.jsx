@@ -11,6 +11,7 @@ import CVOptimizationResults from './pages/cv-optimization/CVOptimizationResults
 import MockInterview from './pages/mock-interview/MockInterview';
 import JobTracker from './pages/job-tracker/JobTracker';
 import Resources from './pages/resources/Resources';
+import Profile from './pages/profile/Profile';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/cv-optimization" element={<CVOptimization />} />
         <Route path="/cv-optimization/results" element={<CVOptimizationResults />} />
+        <Route path="/profile" element={<Profile />} />
 
         {/* Private Routes - With Layout */}
         <Route path="/dashboard" element={<Layout />}>

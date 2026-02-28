@@ -57,7 +57,7 @@ const Navbar = () => {
           </NavLink>
         </nav>
 
-        {/* Right: Auth actions */}
+        {/* Right: Auth actions & Profile */}
         <div className="navbar-actions">
           <Link to="/login" className="nav-login-link">
             Log In
@@ -65,6 +65,21 @@ const Navbar = () => {
           <Link to="/register" className="nav-cta-button">
             Get Started
           </Link>
+          <div className="navbar-user-actions">
+            <button className="notification-btn" aria-label="Notifications">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <span className="notification-badge">1</span>
+            </button>
+            <Link to="/profile" className="profile-avatar-btn" aria-label="Profile">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
     </header>

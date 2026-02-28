@@ -1,11 +1,15 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import { useCVOptimization, OPTIMIZATION_STATUS } from '../../features/cv-optimization';
+import tokenManager from '../../utils/tokenManager';
 import './CVOptimization.css';
 
 const CVOptimization = () => {
   const navigate = useNavigate();
+  const isAuthenticated = tokenManager.isAuthenticated();
+  const user = tokenManager.getUser();
+  
   const {
     selectedFile,
     status,
@@ -75,6 +79,37 @@ const CVOptimization = () => {
             </p>
           </div>
 
+          {/* Authentication Banner */}
+          {!isAuthenticated && (
+            <div className="auth-banner">
+              <div className="auth-banner-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </div>
+              <div className="auth-banner-content">
+                <h3>Login Required</h3>
+                <p>Please login to use the CV optimization feature.</p>
+              </div>
+              <Link to="/login" className="auth-banner-btn">
+                Login Now
+              </Link>
+            </div>
+          )}
+
+          {/* Welcome Banner for logged in users */}
+          {isAuthenticated && user && (
+            <div className="welcome-banner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <span>Welcome, <strong>{user.fullName}</strong>! Upload your CV to get started.</span>
+            </div>
+          )}
+
           {/* Error Message */}
           {error && (
             <div className="error-message">
@@ -83,7 +118,12 @@ const CVOptimization = () => {
                 <line x1="15" y1="9" x2="9" y2="15" />
                 <line x1="9" y1="9" x2="15" y2="15" />
               </svg>
-              <span>{error}</span>
+              <div className="error-content">
+                <span>{error}</span>
+                {error.includes('login') && (
+                  <Link to="/login" className="error-login-link">Go to Login</Link>
+                )}
+              </div>
             </div>
           )}
 

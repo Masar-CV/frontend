@@ -178,10 +178,89 @@
     color: #10b981;
   }
 
+  /* Authentication Banner */
+  .auth-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background-color: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-banner-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #fef3c7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d97706;
+    flex-shrink: 0;
+  }
+
+  .auth-banner-content {
+    flex: 1;
+  }
+
+  .auth-banner-content h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #92400e;
+    margin-bottom: 0.125rem;
+  }
+
+  .auth-banner-content p {
+    font-size: 0.875rem;
+    color: #b45309;
+  }
+
+  .auth-banner-btn {
+    padding: 0.625rem 1.25rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .auth-banner-btn:hover {
+    background-color: #1d4ed8;
+  }
+
+  /* Welcome Banner */
+  .welcome-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    color: #1e40af;
+    font-size: 0.9375rem;
+  }
+
+  .welcome-banner svg {
+    color: #2563eb;
+    flex-shrink: 0;
+  }
+
+  .welcome-banner strong {
+    color: #1d4ed8;
+  }
+
   /* Error Message */
   .error-message {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.75rem;
     padding: 1rem;
     background-color: #fef2f2;
@@ -195,6 +274,23 @@
   .error-message svg {
     flex-shrink: 0;
     color: #ef4444;
+    margin-top: 0.125rem;
+  }
+
+  .error-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .error-login-link {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .error-login-link:hover {
+    text-decoration: underline;
   }
 
   /* Loading State */
@@ -237,6 +333,8 @@
     max-width: 300px;
   }
 
+
+  
   .loading-text {
     font-size: 1rem;
     font-weight: 500;
@@ -325,6 +423,21 @@
   
     .cv-optimization-title {
       font-size: 1.5rem;
+    }
+
+    .auth-banner {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .auth-banner-btn {
+      width: 100%;
+    }
+
+    .welcome-banner {
+      flex-direction: column;
+      text-align: center;
     }
   
     .upload-card {

@@ -115,7 +115,7 @@ const Home = () => {
                 strokeLinecap="round"
               />
             </svg>
-    
+
             <p className="hero-description">
               Empower your professional growth with AI-driven CV
               analysis, personalized career insights, and

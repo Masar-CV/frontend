@@ -3,6 +3,8 @@
  * Handles all HTTP requests related to CV optimization
  */
 
+import tokenManager from '../../../utils/tokenManager';
+
 const API_BASE_URL = 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net';
 
 /**
@@ -84,6 +86,11 @@ export const optimizeCV = async (file, onProgress = null) => {
           } catch (parseError) {
             reject(new CVOptimizationError('Failed to parse server response'));
           }
+        } else if (xhr.status === 401) {
+          reject(new CVOptimizationError(
+            'Please login to use CV optimization.',
+            401
+          ));
         } else {
           let errorMessage = 'Failed to optimize CV';
           try {
@@ -106,6 +113,13 @@ export const optimizeCV = async (file, onProgress = null) => {
 
       xhr.open('POST', `${API_BASE_URL}/api/cv/optimize`);
       xhr.timeout = 120000; // 2 minutes timeout
+      
+      // Add Authorization header if token exists
+      const token = tokenManager.getToken();
+      if (token) {
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+      }
+      
       xhr.send(formData);
     });
 
@@ -137,7 +151,8 @@ export const downloadOptimizedCV = async (downloadUrl, fileName) => {
       ? downloadUrl 
       : `${API_BASE_URL}${downloadUrl}`;
 
-    const response = await fetch(fullUrl);
+    const headers = tokenManager.getAuthHeader();
+    const response = await fetch(fullUrl, { headers });
     
     if (!response.ok) {
       throw new CVOptimizationError('Failed to download file', response.status);
@@ -167,7 +182,10 @@ export const downloadOptimizedCV = async (downloadUrl, fileName) => {
  */
 export const getOptimizationById = async (optimizationId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/cv/optimizations/${optimizationId}`);
+    const headers = tokenManager.getAuthHeader();
+    const response = await fetch(`${API_BASE_URL}/api/cv/optimizations/${optimizationId}`, {
+      headers
+    });
     
     if (!response.ok) {
       throw new CVOptimizationError('Failed to fetch optimization result', response.status);

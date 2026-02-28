@@ -201,6 +201,156 @@
     transform: scale(1.05);
   }
   
+  /* Mobile Menu Button */
+  .mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    gap: 5px;
+  }
+
+  .hamburger-line {
+    width: 22px;
+    height: 2px;
+    background-color: #374151;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu-btn.open .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .mobile-menu-btn.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-btn.open .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Mobile Menu Overlay */
+  .mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  .mobile-menu-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Mobile Menu */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 95;
+    padding: 5rem 1.5rem 2rem;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .mobile-menu.open {
+    right: 0;
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+  }
+
+  .mobile-nav-link svg {
+    flex-shrink: 0;
+  }
+
+  .mobile-menu-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mobile-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: none;
+    border: 2px solid #2563eb;
+    border-radius: 10px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .mobile-login-btn:hover {
+    background-color: #eff6ff;
+  }
+
+  .mobile-register-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #2563eb;
+    border-radius: 10px;
+    transition: background-color 0.2s;
+  }
+
+  .mobile-register-btn:hover {
+    background-color: #1d4ed8;
+  }
+
   /* Basic responsiveness */
   @media (max-width: 1024px) {
     .navbar-inner {
@@ -214,12 +364,32 @@
   }
   
   @media (max-width: 768px) {
+    .navbar {
+      padding: 0.625rem 1rem;
+    }
+
+    .mobile-menu-btn {
+      display: flex;
+      order: 3;
+    }
+
+    .mobile-menu-overlay {
+      display: block;
+    }
+
+    .mobile-menu {
+      display: flex;
+      flex-direction: column;
+    }
+
     .navbar-nav {
-      display: none; /* for now; later you can add a mobile menu */
+      display: none;
     }
   
     .navbar-actions {
       gap: 0.5rem;
+      flex: 1;
+      justify-content: flex-end;
     }
   
     .nav-login-link,
@@ -229,6 +399,7 @@
   
     .navbar-user-actions {
       margin-left: 0;
+      margin-right: 0.5rem;
     }
   
     .notification-btn,
@@ -249,5 +420,32 @@
       font-size: 0.625rem;
       top: 2px;
       right: 2px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .navbar {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .navbar-logo a {
+      font-size: 1.5rem;
+    }
+
+    .notification-btn,
+    .profile-avatar-btn {
+      width: 32px;
+      height: 32px;
+    }
+
+    .notification-btn svg,
+    .profile-avatar-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .mobile-menu {
+      width: 100%;
+      max-width: 100%;
     }
   }

@@ -1,0 +1,145 @@
+.skills-education-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.se-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.se-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.no-data {
+  text-align: center;
+  color: #6b7280;
+  padding: 1rem;
+  font-size: 0.875rem;
+}
+
+.skills-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.skill-category {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.category-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.skills-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.skill-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.education-list,
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.education-item,
+.project-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.edu-bullet,
+.project-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.project-bullet {
+  background-color: #10b981;
+}
+
+.edu-text,
+.project-text {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.certifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cert-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  color: #374151;
+}
+
+@media (max-width: 640px) {
+  .se-card {
+    padding: 1rem;
+  }
+
+  .se-title {
+    font-size: 1rem;
+  }
+
+  .skills-chips {
+    gap: 0.375rem;
+  }
+
+  .skill-chip {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+  }
+
+  .edu-text,
+  .project-text {
+    font-size: 0.875rem;
+  }
+}

@@ -4,8 +4,9 @@
  */
 
 import tokenManager from '../../../utils/tokenManager';
+import { API_CONFIG } from '../../../utils/constants';
 
-const API_BASE_URL = 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net';
+const API_BASE_URL = API_CONFIG.BASE_URL;
 
 /**
  * Custom error class for API errors
@@ -147,9 +148,12 @@ export const optimizeCV = async (file, onProgress = null) => {
  */
 export const downloadOptimizedCV = async (downloadUrl, fileName) => {
   try {
+    // For download, use relative URL if in development (proxy), otherwise full URL
     const fullUrl = downloadUrl.startsWith('http') 
       ? downloadUrl 
-      : `${API_BASE_URL}${downloadUrl}`;
+      : downloadUrl.startsWith('/api') 
+        ? `${API_BASE_URL}${downloadUrl}`
+        : `${API_BASE_URL}/api${downloadUrl}`;
 
     const headers = tokenManager.getAuthHeader();
     const response = await fetch(fullUrl, { headers });

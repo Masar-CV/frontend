@@ -4,9 +4,14 @@ export const APP_NAME = 'Masar';
 // ============================================
 // API Configuration
 // ============================================
+// In development, we use Vite proxy (empty string for BASE_URL)
+// In production, use the full API URL
+const isDevelopment = import.meta.env.DEV;
+
 export const API_CONFIG = {
-  BASE_URL: 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net',
-  TIMEOUT: 10000,
+  BASE_URL: isDevelopment ? '' : 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net',
+  FULL_API_URL: 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net',
+  TIMEOUT: 30000,
   ENDPOINTS: {
     AUTH: {
       LOGIN: '/api/auth/login',
@@ -14,6 +19,9 @@ export const API_CONFIG = {
       FORGOT_PASSWORD: '/api/auth/forgot-password',
       VERIFY_OTP: '/api/auth/verify-otp',
       RESET_PASSWORD: '/api/auth/reset-password',
+    },
+    CV: {
+      OPTIMIZE: '/api/cv/optimize',
     },
   },
 };

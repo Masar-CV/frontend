@@ -23,6 +23,14 @@ export const API_CONFIG = {
     CV: {
       OPTIMIZE: '/api/cv/optimize',
     },
+    PROFILE: {
+      GET: '/api/profile',
+      UPDATE: '/api/profile',
+      ABOUT: '/api/profile/about',
+      STATISTICS: '/api/profile/statistics',
+      SKILLS: '/api/profile/skills',
+      EXPERIENCES: '/api/profile/experiences',
+    },
   },
 };
 

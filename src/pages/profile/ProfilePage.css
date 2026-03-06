@@ -1,0 +1,144 @@
+.profile-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-main {
+  flex: 1;
+  padding: 2rem 3rem;
+}
+
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.5rem;
+}
+
+.profile-left-column,
+.profile-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Shared card base */
+.profile-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.card-edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.card-edit-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.section-empty {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Loading & Error */
+.profile-loading,
+.profile-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: #6b7280;
+  font-size: 0.9375rem;
+}
+
+.profile-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: profile-spin 0.75s linear infinite;
+}
+
+@keyframes profile-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .profile-main {
+    padding: 1.5rem 2rem;
+  }
+
+  .profile-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-main {
+    padding: 1.25rem 1rem;
+  }
+
+  .profile-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .profile-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-main {
+    padding: 1rem;
+  }
+
+  .profile-card {
+    padding: 1rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+} 

@@ -10,9 +10,9 @@ import {
   SkillsEducation,
   EvaluationBreakdown
 } from '../../features/cv-optimization';
-import './CVOptimizationResults.css';
+import './CVOptimizationResultsPage.css';
 
-const CVOptimizationResults = () => {
+const CVOptimizationResultsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { result, setResultData, handleDownload } = useCVOptimization();
@@ -47,7 +47,7 @@ const CVOptimizationResults = () => {
   return (
     <div className="cv-results-page">
       <Navbar />
-      
+
       <main className="cv-results-main">
         <div className="cv-results-container">
           {/* Header */}
@@ -85,7 +85,6 @@ const CVOptimizationResults = () => {
           <div className="results-grid">
             {/* Left Column */}
             <div className="results-left-column">
-              {/* Overview Card */}
               <OverviewCard
                 qualityScore={data.qualityScore}
                 grade={data.grade}
@@ -93,16 +92,12 @@ const CVOptimizationResults = () => {
                 fileName={data.fileName}
                 onDownload={handleDownload}
               />
-
-              {/* Summary & Contact */}
               <SummaryContact
                 metadata={data.metadata}
                 contactInfo={data.contactInfo}
                 summary={data.summary}
                 summaryEvaluation={data.evaluation?.summary}
               />
-
-              {/* Experience Analyzer */}
               <ExperienceAnalyzer
                 experienceAnalyzed={data.experienceAnalyzed}
                 experienceFixStats={data.experienceFixStats}
@@ -111,13 +106,10 @@ const CVOptimizationResults = () => {
 
             {/* Right Column */}
             <div className="results-right-column">
-              {/* Evaluation Breakdown */}
               <EvaluationBreakdown
                 evaluation={data.evaluation}
                 validation={data.validation}
               />
-
-              {/* Skills & Education */}
               <SkillsEducation
                 skillsDetected={data.skillsDetected}
                 education={data.education}
@@ -154,4 +146,4 @@ const CVOptimizationResults = () => {
   );
 };
 
-export default CVOptimizationResults;
+export default CVOptimizationResultsPage;

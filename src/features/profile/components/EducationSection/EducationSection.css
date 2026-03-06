@@ -1,0 +1,50 @@
+.education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.education-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.edu-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.edu-content {
+  flex: 1;
+}
+
+.edu-degree {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.125rem;
+}
+
+.edu-institution {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
+}
+
+.edu-details {
+  font-size: 0.8125rem;
+  color: #6b7280;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edu-separator {
+  margin-left: 0.5rem;
+}

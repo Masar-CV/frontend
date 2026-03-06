@@ -18,3 +18,4 @@ export { default as SummaryContact } from './components/SummaryContact/SummaryCo
 export { default as ExperienceAnalyzer } from './components/ExperienceAnalyzer/ExperienceAnalyzer';
 export { default as SkillsEducation } from './components/SkillsEducation/SkillsEducation';
 export { default as EvaluationBreakdown } from './components/EvaluationBreakdown/EvaluationBreakdown';
+export { default as UploadCard } from './components/UploadCard/UploadCard';

@@ -6,12 +6,12 @@ import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Dashboard from './pages/dashboard/Dashboard';
 import CVAnalysis from './pages/cv-analysis/CVAnalysis';
-import CVOptimization from './pages/cv-optimization/CVOptimization';
-import CVOptimizationResults from './pages/cv-optimization/CVOptimizationResults';
+import CVOptimizationPage from './pages/cv-optimization/CVOptimizationPage';
+import CVOptimizationResultsPage from './pages/cv-optimization/CVOptimizationResultsPage';
 import MockInterview from './pages/mock-interview/MockInterview';
 import JobTracker from './pages/job-tracker/JobTracker';
 import Resources from './pages/resources/Resources';
-import Profile from './pages/profile/Profile';
+import ProfilePage from './pages/profile/ProfilePage';
 
 function App() {
   return (
@@ -24,9 +24,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/cv-optimization" element={<CVOptimization />} />
-        <Route path="/cv-optimization/results" element={<CVOptimizationResults />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/cv-optimization" element={<CVOptimizationPage />} />
+        <Route path="/cv-optimization/results" element={<CVOptimizationResultsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         {/* Private Routes - With Layout */}
         <Route path="/dashboard" element={<Layout />}>

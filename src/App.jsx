@@ -27,12 +27,12 @@ function App() {
         <Route path="/cv-optimization" element={<CVOptimizationPage />} />
         <Route path="/cv-optimization/results" element={<CVOptimizationResultsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/dashboard/mock-interview" element={<MockInterview />} />
 
         {/* Private Routes - With Layout */}
         <Route path="/dashboard" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="cv-analysis" element={<CVAnalysis />} />
-          <Route path="mock-interview" element={<MockInterview />} />
           <Route path="job-tracker" element={<JobTracker />} />
           <Route path="resources" element={<Resources />} />
         </Route>

@@ -26,20 +26,3 @@ export const formatDateDisplay = (iso) => {
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 };
-
-export const STATIC_EDUCATION = [
-  {
-    id: 1,
-    degree: 'Bachelor of Computer Science',
-    institution: 'King Saud University',
-    year: '2018',
-    gpa: '3.8/4.0',
-  },
-  {
-    id: 2,
-    degree: 'Master of Software Engineering',
-    institution: 'King Fahd University',
-    year: '2020',
-    gpa: '3.9/4.0',
-  },
-];

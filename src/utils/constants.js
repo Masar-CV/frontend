@@ -30,6 +30,10 @@ export const API_CONFIG = {
       STATISTICS: '/api/profile/statistics',
       SKILLS: '/api/profile/skills',
       EXPERIENCES: '/api/profile/experiences',
+      EDUCATION: '/api/profile/education',
+      CERTIFICATIONS: '/api/profile/certifications',
+      CV_DOWNLOAD: '/api/profile/cv/download',
+      EMAIL_PREFERENCES: '/api/profile/email-preferences',
     },
   },
 };

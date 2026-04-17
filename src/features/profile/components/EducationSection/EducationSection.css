@@ -25,6 +25,13 @@
   flex: 1;
 }
 
+.edu-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
 .edu-degree {
   font-size: 0.9375rem;
   font-weight: 600;
@@ -47,4 +54,44 @@
 
 .edu-separator {
   margin-left: 0.5rem;
+}
+
+.edu-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}
+
+.edu-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  padding: 0;
+}
+
+.edu-action-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #374151;
+}
+
+.edu-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .edu-form-row {
+    grid-template-columns: 1fr;
+  }
 }

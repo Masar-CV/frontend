@@ -4,6 +4,7 @@ import useProfile from '../../features/profile/hooks/useProfile';
 import useSkills from '../../features/profile/hooks/useSkills';
 import useExperiences from '../../features/profile/hooks/useExperiences';
 import useStatistics from '../../features/profile/hooks/useStatistics';
+import useEducation from '../../features/profile/hooks/useEducation';
 import ProfileHeader from '../../features/profile/components/ProfileHeader/ProfileHeader';
 import AboutSection from '../../features/profile/components/AboutSection/AboutSection';
 import ExperienceSection from '../../features/profile/components/ExperienceSection/ExperienceSection';
@@ -17,6 +18,7 @@ const ProfilePage = () => {
   const profileHook = useProfile();
   const skillsHook = useSkills();
   const expHook = useExperiences();
+  const eduHook = useEducation();
   const { statistics } = useStatistics();
 
   if (profileHook.loading) {
@@ -94,7 +96,21 @@ const ProfilePage = () => {
               onDelete={expHook.remove}
             />
 
-            <EducationSection />
+            <EducationSection
+              education={eduHook.education}
+              loading={eduHook.loading}
+              error={eduHook.error}
+              isModalOpen={eduHook.isModalOpen}
+              editingEducation={eduHook.editingEducation}
+              form={eduHook.form}
+              saving={eduHook.saving}
+              saveError={eduHook.saveError}
+              onAdd={eduHook.openAdd}
+              onEdit={eduHook.openEdit}
+              onClose={eduHook.closeModal}
+              onChange={eduHook.changeForm}
+              onSave={eduHook.save}
+            />
           </div>
 
           {/* Right Column */}

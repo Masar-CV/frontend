@@ -4,6 +4,25 @@ import errorHandler from '../../../utils/errorHandler';
 
 const ENDPOINTS = API_CONFIG.ENDPOINTS.PROFILE;
 
+const parseDownloadFileName = (contentDisposition) => {
+  if (!contentDisposition) return 'profile-cv';
+
+  // Supports: filename="x.ext" and filename*=UTF-8''x.ext
+  const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+  if (utf8Match?.[1]) {
+    try {
+      return decodeURIComponent(utf8Match[1]).replace(/["']/g, '');
+    } catch {
+      return utf8Match[1].replace(/["']/g, '');
+    }
+  }
+
+  const basicMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+  if (basicMatch?.[1]) return basicMatch[1];
+
+  return 'profile-cv';
+};
+
 const profileService = {
   // --- Profile ---
   getProfile: async () => {
@@ -94,6 +113,122 @@ const profileService = {
       await httpClient.delete(`${ENDPOINTS.SKILLS}/${skillId}`);
     } catch (error) {
       errorHandler.logError('profileService.deleteSkill', error);
+      throw error;
+    }
+  },
+
+  // --- Education ---
+  getEducation: async () => {
+    try {
+      const response = await httpClient.get(ENDPOINTS.EDUCATION);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.getEducation', error);
+      throw error;
+    }
+  },
+
+  createEducation: async (data) => {
+    try {
+      const response = await httpClient.post(ENDPOINTS.EDUCATION, data);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.createEducation', error);
+      throw error;
+    }
+  },
+
+  updateEducation: async (educationId, data) => {
+    try {
+      const response = await httpClient.put(`${ENDPOINTS.EDUCATION}/${educationId}`, data);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.updateEducation', error);
+      throw error;
+    }
+  },
+
+  // --- Certifications CRUD ---
+  getCertifications: async () => {
+    try {
+      const response = await httpClient.get(ENDPOINTS.CERTIFICATIONS);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.getCertifications', error);
+      throw error;
+    }
+  },
+
+  getCertificationById: async (certificationId) => {
+    try {
+      const response = await httpClient.get(`${ENDPOINTS.CERTIFICATIONS}/${certificationId}`);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.getCertificationById', error);
+      throw error;
+    }
+  },
+
+  createCertification: async (data) => {
+    try {
+      const response = await httpClient.post(ENDPOINTS.CERTIFICATIONS, data);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.createCertification', error);
+      throw error;
+    }
+  },
+
+  updateCertification: async (certificationId, data) => {
+    try {
+      const response = await httpClient.put(`${ENDPOINTS.CERTIFICATIONS}/${certificationId}`, data);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.updateCertification', error);
+      throw error;
+    }
+  },
+
+  deleteCertification: async (certificationId) => {
+    try {
+      await httpClient.delete(`${ENDPOINTS.CERTIFICATIONS}/${certificationId}`);
+    } catch (error) {
+      errorHandler.logError('profileService.deleteCertification', error);
+      throw error;
+    }
+  },
+
+  // --- Quick Actions ---
+  downloadProfileCV: async () => {
+    try {
+      const response = await httpClient.get(ENDPOINTS.CV_DOWNLOAD, { responseType: 'blob' });
+      const contentDisposition = response.headers?.['content-disposition'];
+      return {
+        blob: response.data,
+        fileName: parseDownloadFileName(contentDisposition),
+      };
+    } catch (error) {
+      errorHandler.logError('profileService.downloadProfileCV', error);
+      throw error;
+    }
+  },
+
+  getEmailPreferences: async () => {
+    try {
+      const response = await httpClient.get(ENDPOINTS.EMAIL_PREFERENCES);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.getEmailPreferences', error);
+      throw error;
+    }
+  },
+
+  updateEmailPreferences: async (preferences) => {
+    try {
+      const response = await httpClient.put(ENDPOINTS.EMAIL_PREFERENCES, preferences);
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('profileService.updateEmailPreferences', error);
       throw error;
     }
   },

@@ -369,6 +369,7 @@
   align-items: center;
   gap: 8px;
   margin-top: 4px;
+  flex-wrap: wrap;
 }
 
 .experience-meta > span {
@@ -659,6 +660,8 @@
   padding: 4px 10px;
   font-size: 12px;
   line-height: 1.2;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .skill-chip.soft {
@@ -840,5 +843,35 @@
   .cv-panel .job-description-area {
     margin-top: 18px;
     min-height: 260px;
+  }
+
+  .score-meta-grid div,
+  .score-breakdown-grid div {
+    padding: 10px 9px;
+  }
+
+  .experience-meta > span {
+    width: 100%;
+    text-transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .cv-analysis-hero-copy h1 {
+    font-size: 36px;
+  }
+
+  .cv-results-card,
+  .cv-results-skills-card,
+  .cv-results-score-card {
+    padding: 16px;
+  }
+
+  .cv-score-value {
+    font-size: 42px;
+  }
+
+  .cv-score-value span {
+    font-size: 20px;
   }
 }

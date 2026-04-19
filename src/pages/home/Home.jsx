@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import FeatureCard from '../../components/ui/FeatureCard';
+import tokenManager from '../../utils/tokenManager';
 import colImage from '../../assets/images/Col.png';
 import vectorLine from '../../assets/images/Vector 14.png';
 // Feature Icons
@@ -91,6 +93,22 @@ const features = [
 ];
 
 const Home = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(tokenManager.isAuthenticated());
+
+  useEffect(() => {
+    const syncAuthState = () => {
+      setIsAuthenticated(tokenManager.isAuthenticated());
+    };
+
+    window.addEventListener('storage', syncAuthState);
+    window.addEventListener('auth-changed', syncAuthState);
+
+    return () => {
+      window.removeEventListener('storage', syncAuthState);
+      window.removeEventListener('auth-changed', syncAuthState);
+    };
+  }, []);
+
   return (
     <div className="home-page">
       <Navbar />
@@ -123,9 +141,11 @@ const Home = () => {
             </p>
 
             <div className="hero-buttons">
-              <Link to="/register" className="btn-get-started">
-                Get Started <span className="btn-arrow">→</span>
-              </Link>
+              {!isAuthenticated && (
+                <Link to="/register" className="btn-get-started">
+                  Get Started <span className="btn-arrow">→</span>
+                </Link>
+              )}
               <Link to="" className="btn-explore">
                 Explore Features
               </Link>
@@ -217,9 +237,11 @@ const Home = () => {
             <p className="cta-description">
               Join MASAR now and unlock AI-powered career development tools that adapt to your unique goals. Your future starts here.
             </p>
-            <Link to="/register" className="cta-button">
-              Get Started <span className="cta-arrow">→</span>
-            </Link>
+            {!isAuthenticated && (
+              <Link to="/register" className="cta-button">
+                Get Started <span className="cta-arrow">→</span>
+              </Link>
+            )}
           </div>
           <div className="cta-image-container">
             <img 
@@ -238,4 +260,3 @@ const Home = () => {
 };
 
 export default Home;
-

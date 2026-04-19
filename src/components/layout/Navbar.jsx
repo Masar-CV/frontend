@@ -242,12 +242,24 @@ const Navbar = () => {
             </svg>
             Resources
           </NavLink>
-          <NavLink to="/dashboard/mock-interview" className="mobile-nav-link" onClick={closeMobileMenu}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            Mock Interview
-          </NavLink>
+
+          <div className="mobile-services-block">
+            <p className="mobile-services-title">Services</p>
+            <p className="mobile-services-hint">Quick access to key tools</p>
+            <NavLink to="/dashboard/mock-interview" className="mobile-service-link" onClick={closeMobileMenu}>
+              <span className="mobile-service-name">Mock Interview</span>
+              <span className="mobile-service-desc">Practice with AI simulations</span>
+            </NavLink>
+            <NavLink to="/dashboard/cv-analysis" className="mobile-service-link" onClick={closeMobileMenu}>
+              <span className="mobile-service-name">CV Analysis</span>
+              <span className="mobile-service-desc">Match your CV with job requirements</span>
+            </NavLink>
+            <NavLink to="/dashboard/resources" className="mobile-service-link" onClick={closeMobileMenu}>
+              <span className="mobile-service-name">Career Development</span>
+              <span className="mobile-service-desc">Explore learning resources</span>
+            </NavLink>
+          </div>
+
           {isAuthenticated && (
             <NavLink to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

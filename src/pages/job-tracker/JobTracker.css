@@ -223,6 +223,13 @@
   margin-top: 34px;
 }
 
+.job-tracker-table-hint {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 .job-tracker-table-shell {
   margin-top: 16px;
   border: 1px solid #e5e7eb;
@@ -301,6 +308,73 @@
   fill: currentColor;
 }
 
+.job-tracker-mobile-list {
+  display: none;
+}
+
+.job-tracker-mobile-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.job-tracker-mobile-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.job-tracker-mobile-head h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 17px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.job-tracker-mobile-head p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.job-tracker-mobile-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.job-tracker-mobile-grid span {
+  display: block;
+  color: #6b7280;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.job-tracker-mobile-grid strong {
+  display: block;
+  margin-top: 4px;
+  color: #111827;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.job-tracker-mobile-grid strong.salary {
+  color: #059669;
+}
+
+.job-tracker-mobile-notes {
+  margin: 12px 0 0;
+  color: #4b5563;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 @media (max-width: 1200px) {
   .job-tracker-hero h1 {
     font-size: 36px;
@@ -318,6 +392,10 @@
 @media (max-width: 860px) {
   .job-tracker-main {
     padding-top: 50px;
+  }
+
+  .job-tracker-table {
+    min-width: 920px;
   }
 
   .job-tracker-hero {
@@ -349,5 +427,19 @@
 
   .job-tracker-recent-card h3 {
     font-size: 24px;
+  }
+
+  .job-tracker-table-shell {
+    display: none;
+  }
+
+  .job-tracker-table-hint {
+    display: none;
+  }
+
+  .job-tracker-mobile-list {
+    margin-top: 14px;
+    display: grid;
+    gap: 12px;
   }
 }

@@ -15,7 +15,7 @@
   margin: 0 auto;
 }
 
-Header 
+/* Header */
 .cv-optimization-header {
   margin-bottom: 2rem;
 }
@@ -32,7 +32,7 @@ Header
   color: #6b7280;
 }
 
-Authentication Banner 
+/* Authentication Banner */
 .auth-banner {
   display: flex;
   align-items: center;
@@ -88,7 +88,7 @@ Authentication Banner
   background-color: #1d4ed8;
 }
 
-Welcome Banner 
+/* Welcome Banner */
 .welcome-banner {
   display: flex;
   align-items: center;
@@ -111,7 +111,7 @@ Welcome Banner
   color: #1d4ed8;
 }
 
-Error Message 
+/* Error Message */
 .error-message {
   display: flex;
   align-items: flex-start;
@@ -147,7 +147,7 @@ Error Message
   text-decoration: underline;
 }
 
- Analyze Button 
+/* Analyze Button */
 .analyze-btn {
   display: flex;
   align-items: center;
@@ -189,7 +189,7 @@ Error Message
   animation: spin 1s linear infinite;
 }
 
-Security Note Bottom 
+/* Security Note Bottom */
 .security-note-bottom {
   display: flex;
   align-items: center;
@@ -228,6 +228,10 @@ Security Note Bottom
     text-align: center;
   }
 
+  .welcome-banner span {
+    word-break: break-word;
+  }
+
   .analyze-btn {
     max-width: 100%;
   }
@@ -236,5 +240,16 @@ Security Note Bottom
 @media (max-width: 480px) {
   .cv-optimization-title {
     font-size: 1.25rem;
+  }
+
+  .auth-banner,
+  .welcome-banner,
+  .error-message {
+    padding: 0.875rem;
+  }
+
+  .security-note-bottom {
+    text-align: center;
+    align-items: flex-start;
   }
 }

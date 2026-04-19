@@ -445,6 +445,10 @@
   .dashboard-trends-plot {
     height: 220px;
   }
+
+  .dashboard-pie-label {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -489,5 +493,36 @@
   .dashboard-trends-legend {
     flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .dashboard-trends-months {
+    font-size: 11px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-main {
+    padding: 22px 12px 22px;
+  }
+
+  .dashboard-card {
+    padding: 14px;
+  }
+
+  .dashboard-kpi-card {
+    min-height: 128px;
+    padding: 14px;
+  }
+
+  .dashboard-kpi-value {
+    margin-top: 14px;
+    font-size: 26px;
+  }
+
+  .dashboard-success-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 }

@@ -22,6 +22,7 @@ const tokenManager = {
       localStorage.setItem(TOKEN_CONFIG.USER_FULL_NAME_KEY, data.fullName);
       localStorage.setItem(TOKEN_CONFIG.USER_ROLE_KEY, data.role);
       localStorage.setItem(TOKEN_CONFIG.EXPIRES_AT_KEY, data.expiresAt);
+      window.dispatchEvent(new Event('auth-changed'));
     } catch (error) {
       console.error('Error saving auth data:', error);
       throw new Error('Failed to save authentication data');
@@ -72,6 +73,7 @@ const tokenManager = {
       localStorage.removeItem(TOKEN_CONFIG.USER_FULL_NAME_KEY);
       localStorage.removeItem(TOKEN_CONFIG.USER_ROLE_KEY);
       localStorage.removeItem(TOKEN_CONFIG.EXPIRES_AT_KEY);
+      window.dispatchEvent(new Event('auth-changed'));
     } catch (error) {
       console.error('Error clearing auth data:', error);
     }

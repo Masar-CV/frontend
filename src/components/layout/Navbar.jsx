@@ -1,9 +1,60 @@
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import tokenManager from '../../utils/tokenManager';
 import './Navbar.css';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const profileDrawerRef = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(tokenManager.isAuthenticated());
+  const [currentUser, setCurrentUser] = useState(tokenManager.getUser());
+  const [profileDrawerOpen, setProfileDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    const syncAuthState = () => {
+      setIsAuthenticated(tokenManager.isAuthenticated());
+      setCurrentUser(tokenManager.getUser());
+    };
+
+    window.addEventListener('storage', syncAuthState);
+    window.addEventListener('auth-changed', syncAuthState);
+
+    return () => {
+      window.removeEventListener('storage', syncAuthState);
+      window.removeEventListener('auth-changed', syncAuthState);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!profileDrawerOpen) return undefined;
+
+    const onClickOutside = (event) => {
+      if (!profileDrawerRef.current?.contains(event.target)) {
+        setProfileDrawerOpen(false);
+      }
+    };
+
+    const onEscape = (event) => {
+      if (event.key === 'Escape') {
+        setProfileDrawerOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onEscape);
+    };
+  }, [profileDrawerOpen]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setProfileDrawerOpen(false);
+    }
+  }, [isAuthenticated]);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -12,6 +63,15 @@ const Navbar = () => {
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
+
+  const handleSignOut = () => {
+    tokenManager.clearAuthData();
+    setProfileDrawerOpen(false);
+    closeMobileMenu();
+    navigate('/');
+  };
+
+  const userDisplayName = currentUser?.fullName || currentUser?.email || 'My Profile';
 
   return (
     <header className="navbar">
@@ -75,27 +135,62 @@ const Navbar = () => {
 
         {/* Right: Auth actions & Profile */}
         <div className="navbar-actions">
-          <Link to="/login" className="nav-login-link">
-            Log In
-          </Link>
-          <Link to="/register" className="nav-cta-button">
-            Get Started
-          </Link>
-          <div className="navbar-user-actions">
-            <button className="notification-btn" aria-label="Notifications">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <span className="notification-badge">1</span>
-            </button>
-            <Link to="/profile" className="profile-avatar-btn" aria-label="Profile">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-            </Link>
-          </div>
+          {!isAuthenticated && (
+            <>
+              <Link to="/login" className="nav-login-link">
+                Log In
+              </Link>
+              <Link to="/register" className="nav-cta-button">
+                Get Started
+              </Link>
+            </>
+          )}
+
+          {isAuthenticated && (
+            <div className="navbar-user-actions" ref={profileDrawerRef}>
+              <button className="notification-btn" aria-label="Notifications">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+                <span className="notification-badge">1</span>
+              </button>
+
+              <button
+                type="button"
+                className={`profile-avatar-btn ${profileDrawerOpen ? 'active' : ''}`}
+                aria-label="Profile"
+                aria-expanded={profileDrawerOpen}
+                onClick={() => setProfileDrawerOpen((prev) => !prev)}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </button>
+
+              {profileDrawerOpen && (
+                <div className="profile-drawer" role="menu" aria-label="Profile menu">
+                  <Link
+                    to="/profile"
+                    className="profile-drawer-link"
+                    role="menuitem"
+                    onClick={() => setProfileDrawerOpen(false)}
+                  >
+                    {userDisplayName}
+                  </Link>
+                  <button
+                    type="button"
+                    className="profile-drawer-signout"
+                    role="menuitem"
+                    onClick={handleSignOut}
+                  >
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -153,23 +248,35 @@ const Navbar = () => {
             </svg>
             Mock Interview
           </NavLink>
-          <NavLink to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            Profile
-          </NavLink>
+          {isAuthenticated && (
+            <NavLink to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Profile
+            </NavLink>
+          )}
         </nav>
 
-        <div className="mobile-menu-footer">
-          <Link to="/login" className="mobile-login-btn" onClick={closeMobileMenu}>
-            Log In
-          </Link>
-          <Link to="/register" className="mobile-register-btn" onClick={closeMobileMenu}>
-            Get Started
-          </Link>
-        </div>
+        {!isAuthenticated && (
+          <div className="mobile-menu-footer">
+            <Link to="/login" className="mobile-login-btn" onClick={closeMobileMenu}>
+              Log In
+            </Link>
+            <Link to="/register" className="mobile-register-btn" onClick={closeMobileMenu}>
+              Get Started
+            </Link>
+          </div>
+        )}
+
+        {isAuthenticated && (
+          <div className="mobile-menu-footer">
+            <button type="button" className="mobile-signout-btn" onClick={handleSignOut}>
+              Sign out
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );

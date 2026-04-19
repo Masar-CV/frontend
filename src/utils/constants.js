@@ -22,6 +22,7 @@ export const API_CONFIG = {
     },
     CV: {
       OPTIMIZE: '/api/cv/optimize',
+      MATCH: '/api/cv/match',
     },
     PROFILE: {
       GET: '/api/profile',

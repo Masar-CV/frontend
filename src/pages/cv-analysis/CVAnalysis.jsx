@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Footer from '../../components/layout/Footer';
 import Navbar from '../../components/layout/Navbar';
 import cvMatchService from '../../services/cvMatchService';
@@ -40,8 +39,8 @@ const cvFileLabel = (file) => {
 };
 
 const CVAnalysis = () => {
-  const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const coursesRef = useRef(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [cvText, setCvText] = useState('');
@@ -50,20 +49,37 @@ const CVAnalysis = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [matchResult, setMatchResult] = useState(null);
+  const [showCourses, setShowCourses] = useState(false);
 
   const computed = useMemo(() => {
     if (!matchResult) return null;
 
-    const hardSkillsScore = formatPercent(matchResult.scores?.hard_skill_match);
-    const softSkillsScore = formatPercent(matchResult.scores?.soft_skill_match);
+    // New API response structure
     const finalScore = formatPercent(matchResult.final_score);
+    const hardSkillExact = formatPercent(matchResult.scores?.hard_skill_exact);
+    const hardSkillWithBoost = formatPercent(matchResult.scores?.hard_skill_with_boost);
+    const experienceMatch = formatPercent(matchResult.scores?.experience_match);
+    const semanticSimilarity = formatPercent(matchResult.scores?.semantic_similarity);
+    const familyBoostPct = formatPercent(matchResult.scores?.family_boost_pct);
 
-    const cvHardSkills = Array.isArray(matchResult.cv_hard_skills) ? matchResult.cv_hard_skills : [];
-    const jdHardSkills = Array.isArray(matchResult.jd_hard_skills) ? matchResult.jd_hard_skills : [];
-    const cvSoftSkills = Array.isArray(matchResult.cv_soft_skills) ? matchResult.cv_soft_skills : [];
-    const jdSoftSkills = Array.isArray(matchResult.jd_soft_skills) ? matchResult.jd_soft_skills : [];
-    const missingHardSkills = Array.isArray(matchResult.missing_hard_skills) ? matchResult.missing_hard_skills : [];
-    const missingSoftSkills = Array.isArray(matchResult.missing_soft_skills) ? matchResult.missing_soft_skills : [];
+    const cvSkills = Array.isArray(matchResult.cv_skills) ? matchResult.cv_skills : [];
+    const jdSkills = Array.isArray(matchResult.jd_skills) ? matchResult.jd_skills : [];
+    const matchingSkills = Array.isArray(matchResult.matching_skills) ? matchResult.matching_skills : [];
+    const missingSkills = Array.isArray(matchResult.missing_skills) ? matchResult.missing_skills : [];
+    
+    // Transferable skills object
+    const transferableSkills = matchResult.transferable_skills || {};
+    const transferableSkillsList = Object.entries(transferableSkills).map(([skill, data]) => ({
+      skill,
+      sibling: data.sibling,
+      family: data.family,
+      creditPct: data.credit_pct
+    }));
+
+    // Course recommendations
+    const courseRecommendations = Array.isArray(matchResult.course_recommendations) 
+      ? matchResult.course_recommendations 
+      : [];
 
     const yearsGap = Math.max(
       0,
@@ -72,40 +88,40 @@ const CVAnalysis = () => {
 
     const areasToImprove = [
       {
-        title: 'Missing Hard Skills',
-        description: missingHardSkills.length
-          ? `Missing ${missingHardSkills.length} hard skill(s): ${formatListSummary(missingHardSkills)}`
-          : 'No missing hard skills detected.',
-        severity: missingHardSkills.length ? severityFromScore(hardSkillsScore) : 'low',
-      },
-      {
-        title: 'Soft Skills Alignment',
-        description: missingSoftSkills.length
-          ? `Missing ${missingSoftSkills.length} soft skill(s): ${formatListSummary(missingSoftSkills)}`
-          : 'Soft skills are aligned with the job description.',
-        severity: missingSoftSkills.length ? severityFromScore(softSkillsScore) : 'low',
+        title: 'Missing Skills',
+        description: missingSkills.length
+          ? `Missing ${missingSkills.length} skill(s): ${formatListSummary(missingSkills)}`
+          : 'No missing skills detected.',
+        severity: missingSkills.length ? severityFromScore(hardSkillExact) : 'low',
       },
       {
         title: 'Experience Gap',
         description: yearsGap
           ? `Your CV shows ${matchResult.cv_years} year(s), while the job asks for ${matchResult.jd_years} year(s).`
-          : `Experience level is aligned (${matchResult.cv_years} years).`,
+          : `Experience level is aligned (${matchResult.cv_years || 0} years).`,
         severity: yearsGap >= 2 ? 'high' : yearsGap === 1 ? 'medium' : 'low',
+      },
+      {
+        title: 'Skill Match Quality',
+        description: hardSkillWithBoost > hardSkillExact
+          ? `Your transferable skills add ${familyBoostPct.toFixed(1)}% boost to your match score.`
+          : 'Focus on acquiring exact skills mentioned in the job description.',
+        severity: hardSkillExact < 50 ? 'high' : hardSkillExact < 75 ? 'medium' : 'low',
       },
     ];
 
     const suggestedEdits = [
-      missingHardSkills.length
-        ? `Add missing technical skills: ${formatListSummary(missingHardSkills, 3)}`
-        : 'Your core technical skills match the job requirements well.',
-      missingSoftSkills.length
-        ? `Highlight soft skills such as ${formatListSummary(missingSoftSkills, 2)} in your experience bullets.`
-        : 'Soft skills alignment looks strong based on this job description.',
+      missingSkills.length
+        ? `Add missing skills: ${formatListSummary(missingSkills, 3)}`
+        : 'Your skills match the job requirements well.',
       yearsGap > 0
         ? `Strengthen achievements to compensate for the ${yearsGap}-year experience gap.`
         : 'Emphasize your strongest role impact to reinforce experience alignment.',
       'Prioritize adding exact terminology from the job description in your project and experience bullets.',
       `Hard skills weight is ${(Number(matchResult.weights?.hard_skills || 0) * 100).toFixed(0)}%, so prioritize skill section improvements.`,
+      transferableSkillsList.length
+        ? `Leverage your transferable skills: ${transferableSkillsList.slice(0, 3).map(t => t.skill).join(', ')}`
+        : 'Consider gaining skills from related technology families.',
     ];
 
     const gradeMessage =
@@ -115,34 +131,38 @@ const CVAnalysis = () => {
           ? 'Your CV is a moderate match. A few updates can improve it significantly.'
           : 'Your CV needs targeted improvements to match this role better.';
 
+    const skillCoverage = jdSkills.length
+      ? formatPercent((matchingSkills.length / jdSkills.length) * 100)
+      : 100;
+
     return {
       finalScore,
       grade: matchResult.grade || 'Unrated',
       color: matchResult.color || '#2563eb',
       gradeMessage,
-      hardSkillsScore,
-      softSkillsScore,
+      hardSkillExact,
+      hardSkillWithBoost,
+      experienceMatch,
+      semanticSimilarity,
+      familyBoostPct,
       areasToImprove: areasToImprove.slice(0, 3),
       suggestedEdits,
       metadata: matchResult.cv_metadata || {},
-      cvYears: matchResult.cv_years || '0',
-      jdYears: matchResult.jd_years || '0',
-      missingHardSkills: missingHardSkills.map(formatSkill),
-      missingSoftSkills: missingSoftSkills.map(formatSkill),
-      cvHardSkills: cvHardSkills.map(formatSkill),
-      jdHardSkills: jdHardSkills.map(formatSkill),
-      cvSoftSkills: cvSoftSkills.map(formatSkill),
-      jdSoftSkills: jdSoftSkills.map(formatSkill),
-      hardCoverage: jdHardSkills.length
-        ? formatPercent(((jdHardSkills.length - missingHardSkills.length) / jdHardSkills.length) * 100)
-        : 100,
-      softCoverage: jdSoftSkills.length
-        ? formatPercent(((jdSoftSkills.length - missingSoftSkills.length) / jdSoftSkills.length) * 100)
-        : 100,
-      totalCvSkills: cvHardSkills.length + cvSoftSkills.length,
-      totalJdSkills: jdHardSkills.length + jdSoftSkills.length,
-      totalMissingSkills: missingHardSkills.length + missingSoftSkills.length,
+      cvYears: matchResult.cv_years || 0,
+      jdYears: matchResult.jd_years || 0,
+      cvSkills: cvSkills.map(formatSkill),
+      jdSkills: jdSkills.map(formatSkill),
+      matchingSkills: matchingSkills.map(formatSkill),
+      missingSkills: missingSkills.map(formatSkill),
+      transferableSkills: transferableSkillsList,
+      skillCoverage,
+      totalCvSkills: cvSkills.length,
+      totalJdSkills: jdSkills.length,
+      totalMatchingSkills: matchingSkills.length,
+      totalMissingSkills: missingSkills.length,
       weights: matchResult.weights || {},
+      courseRecommendations,
+      jdWarning: matchResult.jd_warning || null,
     };
   }, [matchResult]);
 
@@ -177,6 +197,7 @@ const CVAnalysis = () => {
       });
 
       setMatchResult(response);
+      setShowCourses(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       setErrorMessage(error.message || 'Unable to analyze CV right now.');
@@ -191,7 +212,15 @@ const CVAnalysis = () => {
     setCvText('');
     setJobDescription('');
     setErrorMessage('');
+    setShowCourses(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleShowCourses = () => {
+    setShowCourses(true);
+    setTimeout(() => {
+      coursesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const handleExportReport = () => {
@@ -217,7 +246,7 @@ const CVAnalysis = () => {
         <main className="cv-analysis-main">
           <section className="cv-analysis-hero">
             <div className="cv-analysis-hero-copy">
-              <h1>CV Analysis &amp; job Matching</h1>
+              <h1>CV Analysis &amp; Job Matching</h1>
               <p>Get AI-powered insights on your CV and see how well it matches job requirements</p>
             </div>
 
@@ -341,7 +370,7 @@ const CVAnalysis = () => {
             onClick={handleAnalyze}
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Analyzing...' : 'Analysis My CV'}
+            {isSubmitting ? 'Analyzing...' : 'Analyze My CV'}
           </button>
         </main>
       ) : (
@@ -355,6 +384,18 @@ const CVAnalysis = () => {
               Export Report
             </button>
           </section>
+
+          {/* JD Warning Banner */}
+          {computed.jdWarning && (
+            <div className="jd-warning-banner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              <span>{computed.jdWarning}</span>
+            </div>
+          )}
 
           <section className="cv-results-score-card">
             <div className="cv-score-value" style={{ color: computed.color }}>
@@ -387,19 +428,27 @@ const CVAnalysis = () => {
                 </div>
               </div>
               <div>
-                <span>Document</span>
-                <strong>{selectedFile?.name || 'Uploaded CV file'}</strong>
+                <span>Candidate</span>
+                <strong>{computed.metadata?.candidate_name || 'Unknown'}</strong>
               </div>
             </div>
 
             <div className="score-breakdown-grid">
               <div>
-                <span>Hard Skill Match</span>
-                <strong>{computed.hardSkillsScore}%</strong>
+                <span>Hard Skill (Exact)</span>
+                <strong>{computed.hardSkillExact}%</strong>
               </div>
               <div>
-                <span>Soft Skill Match</span>
-                <strong>{computed.softSkillsScore}%</strong>
+                <span>Hard Skill (With Boost)</span>
+                <strong>{computed.hardSkillWithBoost}%</strong>
+              </div>
+              <div>
+                <span>Experience Match</span>
+                <strong>{computed.experienceMatch}%</strong>
+              </div>
+              <div>
+                <span>Semantic Similarity</span>
+                <strong>{computed.semanticSimilarity}%</strong>
               </div>
             </div>
           </section>
@@ -430,8 +479,8 @@ const CVAnalysis = () => {
               </header>
 
               <ul className="suggestion-list">
-                {computed.suggestedEdits.map((item) => (
-                  <li key={item}>{item}</li>
+                {computed.suggestedEdits.map((item, index) => (
+                  <li key={index}>{item}</li>
                 ))}
               </ul>
             </article>
@@ -443,8 +492,8 @@ const CVAnalysis = () => {
                 <h2>Skill Gap Analysis</h2>
                 <p>Skills identified from the job description</p>
               </div>
-              <button type="button" onClick={() => navigate('/dashboard/resources')}>
-                See Learning Recommendations
+              <button type="button" onClick={handleShowCourses}>
+                See Course Recommendations
               </button>
             </header>
 
@@ -454,11 +503,15 @@ const CVAnalysis = () => {
                 <strong>{computed.totalCvSkills}</strong>
               </div>
               <div className="coverage-card">
-                <span>Job Skills</span>
+                <span>JD Skills</span>
                 <strong>{computed.totalJdSkills}</strong>
               </div>
+              <div className="coverage-card matching">
+                <span>Matching</span>
+                <strong>{computed.totalMatchingSkills}</strong>
+              </div>
               <div className="coverage-card missing">
-                <span>Missing Skills</span>
+                <span>Missing</span>
                 <strong>{computed.totalMissingSkills}</strong>
               </div>
             </div>
@@ -466,137 +519,160 @@ const CVAnalysis = () => {
             <div className="coverage-bars">
               <div className="coverage-row">
                 <div className="coverage-row-top">
-                  <span>Hard Skills Coverage</span>
-                  <span>{computed.hardCoverage}%</span>
+                  <span>Skill Coverage</span>
+                  <span>{computed.skillCoverage}%</span>
                 </div>
                 <div className="coverage-track">
-                  <div className="coverage-fill" style={{ width: `${computed.hardCoverage}%` }} />
-                </div>
-              </div>
-              <div className="coverage-row">
-                <div className="coverage-row-top">
-                  <span>Soft Skills Coverage</span>
-                  <span>{computed.softCoverage}%</span>
-                </div>
-                <div className="coverage-track">
-                  <div className="coverage-fill soft" style={{ width: `${computed.softCoverage}%` }} />
+                  <div className="coverage-fill" style={{ width: `${computed.skillCoverage}%` }} />
                 </div>
               </div>
             </div>
 
             <div className="skill-groups-grid">
               <article className="skill-group-card">
-                <h3>Skills in CV</h3>
-
-                <div className="skill-type-block">
-                  <h4>{`Hard Skills (${computed.cvHardSkills.length})`}</h4>
-                  <div className="skill-chip-list">
-                    {computed.cvHardSkills.length ? (
-                      computed.cvHardSkills.map((skill) => (
-                        <span key={`cv-hard-${skill}`} className="skill-chip">
-                          {skill}
-                        </span>
-                      ))
-                    ) : (
-                      <p className="empty-skill-text">No hard skills found in CV.</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="skill-type-block">
-                  <h4>{`Soft Skills (${computed.cvSoftSkills.length})`}</h4>
-                  <div className="skill-chip-list">
-                    {computed.cvSoftSkills.length ? (
-                      computed.cvSoftSkills.map((skill) => (
-                        <span key={`cv-soft-${skill}`} className="skill-chip soft">
-                          {skill}
-                        </span>
-                      ))
-                    ) : (
-                      <p className="empty-skill-text">No soft skills found in CV.</p>
-                    )}
-                  </div>
+                <h3>Skills in CV ({computed.cvSkills.length})</h3>
+                <div className="skill-chip-list">
+                  {computed.cvSkills.length ? (
+                    computed.cvSkills.map((skill) => (
+                      <span key={`cv-${skill}`} className="skill-chip">
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="empty-skill-text">No skills found in CV.</p>
+                  )}
                 </div>
               </article>
 
               <article className="skill-group-card">
-                <h3>Skills in Job Description</h3>
-
-                <div className="skill-type-block">
-                  <h4>{`Hard Skills (${computed.jdHardSkills.length})`}</h4>
-                  <div className="skill-chip-list">
-                    {computed.jdHardSkills.length ? (
-                      computed.jdHardSkills.map((skill) => (
-                        <span key={`jd-hard-${skill}`} className="skill-chip">
-                          {skill}
-                        </span>
-                      ))
-                    ) : (
-                      <p className="empty-skill-text">No hard skills found in job description.</p>
-                    )}
-                  </div>
+                <h3>Skills in Job Description ({computed.jdSkills.length})</h3>
+                <div className="skill-chip-list">
+                  {computed.jdSkills.length ? (
+                    computed.jdSkills.map((skill) => (
+                      <span key={`jd-${skill}`} className="skill-chip jd">
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="empty-skill-text">No skills found in job description.</p>
+                  )}
                 </div>
+              </article>
 
-                <div className="skill-type-block">
-                  <h4>{`Soft Skills (${computed.jdSoftSkills.length})`}</h4>
-                  <div className="skill-chip-list">
-                    {computed.jdSoftSkills.length ? (
-                      computed.jdSoftSkills.map((skill) => (
-                        <span key={`jd-soft-${skill}`} className="skill-chip soft">
-                          {skill}
-                        </span>
-                      ))
-                    ) : (
-                      <p className="empty-skill-text">No soft skills found in job description.</p>
-                    )}
-                  </div>
+              <article className="skill-group-card matching">
+                <h3>Matching Skills ({computed.matchingSkills.length})</h3>
+                <div className="skill-chip-list">
+                  {computed.matchingSkills.length ? (
+                    computed.matchingSkills.map((skill) => (
+                      <span key={`match-${skill}`} className="skill-chip matching">
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="empty-skill-text">No matching skills.</p>
+                  )}
                 </div>
               </article>
 
               <article className="skill-group-card missing">
-                <h3>Missing from CV</h3>
-
-                <div className="skill-type-block">
-                  <h4>{`Missing Hard Skills (${computed.missingHardSkills.length})`}</h4>
-                  <div className="skill-chip-list">
-                    {computed.missingHardSkills.length ? (
-                      computed.missingHardSkills.map((skill) => (
-                        <span key={`missing-hard-${skill}`} className="skill-chip missing">
-                          {skill}
-                        </span>
-                      ))
-                    ) : (
-                      <p className="empty-skill-text">No missing hard skills.</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="skill-type-block">
-                  <h4>{`Missing Soft Skills (${computed.missingSoftSkills.length})`}</h4>
-                  <div className="skill-chip-list">
-                    {computed.missingSoftSkills.length ? (
-                      computed.missingSoftSkills.map((skill) => (
-                        <span key={`missing-soft-${skill}`} className="skill-chip missing soft">
-                          {skill}
-                        </span>
-                      ))
-                    ) : (
-                      <p className="empty-skill-text">No missing soft skills.</p>
-                    )}
-                  </div>
+                <h3>Missing Skills ({computed.missingSkills.length})</h3>
+                <div className="skill-chip-list">
+                  {computed.missingSkills.length ? (
+                    computed.missingSkills.map((skill) => (
+                      <span key={`missing-${skill}`} className="skill-chip missing">
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="empty-skill-text">No missing skills.</p>
+                  )}
                 </div>
               </article>
             </div>
 
+            {/* Transferable Skills Section */}
+            {computed.transferableSkills.length > 0 && (
+              <div className="transferable-skills-section">
+                <h3>Transferable Skills</h3>
+                <p className="transferable-subtitle">Skills from related technology families that boost your match</p>
+                <div className="transferable-list">
+                  {computed.transferableSkills.map((item) => (
+                    <div key={item.skill} className="transferable-item">
+                      <div className="transferable-main">
+                        <span className="transferable-skill">{formatSkill(item.skill)}</span>
+                        <span className="transferable-credit">+{item.creditPct}%</span>
+                      </div>
+                      <div className="transferable-meta">
+                        <span>Similar to: <strong>{item.sibling}</strong></span>
+                        <span>Family: <strong>{item.family}</strong></span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
+
+          {/* Course Recommendations Section */}
+          {showCourses && (
+            <section className="cv-results-courses-card" ref={coursesRef}>
+              <header className="results-card-header">
+                <h2>Course Recommendations</h2>
+                <p>Courses to help you acquire missing skills</p>
+              </header>
+
+              {computed.courseRecommendations.length > 0 ? (
+                <div className="courses-grid">
+                  {computed.courseRecommendations.map((course, index) => (
+                    <div key={index} className="course-card">
+                      <div className="course-skill-badge">{formatSkill(course.skill)}</div>
+                      <h3 className="course-name">{course.name}</h3>
+                      <p className="course-university">{course.university}</p>
+                      <div className="course-footer">
+                        <div className="course-rating">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" strokeWidth="1">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                          </svg>
+                          <span>{course.rating?.toFixed(1) || 'N/A'}</span>
+                        </div>
+                        <a 
+                          href={course.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="course-link"
+                        >
+                          View Course
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="no-courses">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                  <p>No course recommendations available for your skill gaps.</p>
+                </div>
+              )}
+            </section>
+          )}
 
           <section className="cv-results-actions">
             <button type="button" className="primary" onClick={handleAnalyzeAnother}>
               Analyze Another CV
             </button>
-            <button type="button" className="secondary" onClick={() => navigate('/dashboard/resources')}>
-              Get Learning Recommendations
-            </button>
+            {!showCourses && computed.courseRecommendations.length > 0 && (
+              <button type="button" className="secondary" onClick={handleShowCourses}>
+                View Course Recommendations
+              </button>
+            )}
           </section>
         </main>
       )}
@@ -607,4 +683,3 @@ const CVAnalysis = () => {
 };
 
 export default CVAnalysis;
-

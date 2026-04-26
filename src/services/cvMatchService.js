@@ -33,7 +33,7 @@ const cvMatchService = {
     validateInput(file, jobDescription);
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('cvFile', file);
     formData.append('jobDescription', jobDescription.trim());
 
     try {
@@ -41,6 +41,7 @@ const cvMatchService = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 120000, // 2 minutes for analysis
       });
 
       return response.data;

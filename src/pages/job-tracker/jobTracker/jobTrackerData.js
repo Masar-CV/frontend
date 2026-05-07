@@ -1,0 +1,53 @@
+export const summaryStats = [
+  { label: 'Wishlist', value: 1, tone: 'wishlist' },
+  { label: 'Applied', value: 2, tone: 'applied' },
+  { label: 'Interview', value: 2, tone: 'interview' },
+  { label: 'Offer', value: 1, tone: 'offer' },
+];
+
+export const applications = [
+  {
+    company: 'TechCorp',
+    position: 'Senior Frontend Developer',
+    status: 'Interview',
+    statusTone: 'interview',
+    dateApplied: '1/15/2025',
+    salary: '$120,000',
+    location: 'San Francisco, CA',
+    contact: 'Sarah Johnson',
+    notes: 'Second round interview scheduled',
+  },
+  {
+    company: 'StartupXYZ',
+    position: 'Full Stack Engineer',
+    status: 'Applied',
+    statusTone: 'applied',
+    dateApplied: '1/20/2025',
+    salary: '$100,000',
+    location: 'Remote',
+    contact: 'Mike Chen',
+    notes: 'Applied through LinkedIn',
+  },
+  {
+    company: 'BigTech Inc',
+    position: 'React Developer',
+    status: 'Offer',
+    statusTone: 'offer',
+    dateApplied: '1/10/2025',
+    salary: '$140,000',
+    location: 'Seattle, WA',
+    contact: 'Alex Rodriguez',
+    notes: 'Offer pending review',
+  },
+  {
+    company: 'LocalFirm',
+    position: 'JavaScript Developer',
+    status: 'Rejected',
+    statusTone: 'rejected',
+    dateApplied: '1/5/2025',
+    salary: '$80,000',
+    location: 'Austin, TX',
+    contact: 'Emma Wilson',
+    notes: 'Not a good culture fit',
+  },
+];

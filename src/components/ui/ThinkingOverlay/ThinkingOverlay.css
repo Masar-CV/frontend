@@ -4,6 +4,7 @@
   z-index: 9999;
   display: grid;
   place-items: center;
+  padding: 5.5rem 1rem 2rem;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(9px);
@@ -28,7 +29,7 @@
   transform: translateX(-50%);
   z-index: 2;
   color: #2563eb;
-  font-size: 5%;
+  font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: 0.05em;
 }
@@ -186,6 +187,17 @@
 }
 
 @media (max-width: 640px) {
+  .thinking-overlay {
+    padding: 5rem 0.875rem 1.5rem;
+    align-items: center;
+  }
+
+  .thinking-overlay::before {
+    inset: 0;
+    background-size: 92px 92px;
+    opacity: 0.42;
+  }
+
   .thinking-icon {
     width: 46px;
     height: 46px;
@@ -198,11 +210,18 @@
   }
 
   .thinking-icon.document {
+    top: 14%;
     left: 8%;
   }
 
   .thinking-icon.scan {
     right: 8%;
+    top: 18%;
+  }
+
+  .thinking-icon.spark {
+    left: 12%;
+    bottom: 13%;
   }
 
   .thinking-brand {
@@ -212,11 +231,57 @@
 }
 
 @media (max-width: 480px) {
+  .thinking-overlay {
+    padding: 4.75rem 0.75rem 1.25rem;
+  }
+
   .thinking-card {
+    width: min(100%, 340px);
     padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .thinking-loader {
+    height: 34px;
+    margin-bottom: 14px;
+  }
+
+  .thinking-loader span {
+    width: 12px;
+    height: 12px;
   }
 
   .thinking-card h2 {
     font-size: 22px;
+  }
+
+  .thinking-card p {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 360px), (max-height: 560px) {
+  .thinking-icon {
+    opacity: 0.55;
+    transform: scale(0.86);
+  }
+
+  .thinking-icon.document,
+  .thinking-icon.scan,
+  .thinking-icon.spark {
+    animation-duration: 7s;
+  }
+
+  .thinking-card {
+    padding: 22px 16px;
+  }
+
+  .thinking-card h2 {
+    font-size: 19px;
+  }
+
+  .thinking-card p {
+    font-size: 12px;
   }
 }

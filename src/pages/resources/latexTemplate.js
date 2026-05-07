@@ -195,7 +195,6 @@ export const EXACT_LATEX_TEMPLATE = String.raw`%-------------------------
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
      \textbf{Languages \& Core}{: Dart, Java, OOP, SOLID Principles, SQL} \\
-     \textbf{Frameworks \& Architecture}{: Flutter, Clean Architecture, MVVM, BLoC (State Management)} \\
      \textbf{Backend \& Cloud}{: Firebase (Auth, Firestore, FCM), Supabase, RESTful APIs, Dio} \\
      \textbf{Storage \& Tools}{: SQLite, Hive, Shared Preferences, Git, GitHub, Postman, Jira, Agile} \\
      \textbf{UI/UX \& Performance}{: Material Design, Responsive Design, RTL, Dark Mode, Crashlytics, Analytics} \\
@@ -221,8 +220,8 @@ export const createLatexFileName = (fullName) => {
 
 export const LATEX_TEMPLATE_DEFAULT_DATA = {
   personal: {
-    fullName: 'Abdalrhman Osama Eid',
-    professionalTitle: 'Flutter & Mobile Developer',
+    fullName: 'Your Name',
+    professionalTitle: 'Job Title',
     email: 'abduos369@gmail.com',
     phone: '+20 1122659904',
     location: 'Cairo, Egypt',
@@ -231,7 +230,7 @@ export const LATEX_TEMPLATE_DEFAULT_DATA = {
     github: 'https://github.com/',
   },
   summary:
-    'Fly & Mobile Developer with 2 years of experience building various applications. Skilled in Android & iOS development, UI/UX implementation, responsive design, API integration, and performance optimization. Passionate about delivering the best user experience through clean design and functionality. In my free time, I serve as a mentor to teach students the development of mobile applications and Flutter best practices.',
+    'Fly me to the moon.',
   skills: [
     'Dart',
     'Java',
@@ -244,11 +243,8 @@ export const LATEX_TEMPLATE_DEFAULT_DATA = {
     'BLoC (State Management)',
     'Firebase',
     'Supabase',
-    'RESTful APIs',
-    'Dio',
+    'RESTful APIs',   
     'SQLite',
-    'Hive',
-    'Shared Preferences',
     'Git',
     'GitHub',
     'Postman',
@@ -259,46 +255,27 @@ export const LATEX_TEMPLATE_DEFAULT_DATA = {
     'RTL',
     'Dark Mode',
     'Crashlytics',
-    'Analytics',
     'Arabic (Native)',
     'English (Professional Proficiency)',
   ],
   experiences: [
     {
       id: 'exp-1',
-      role: 'Junior Flutter Developer',
-      company: 'Codeikoo',
-      period: 'Dec 2025 -- Present',
-      location: 'OnSite | Part-Time',
+      role: 'Senior Position',
+      company: 'Company Name',
+      period: 'Dec 2024 -- May 2025',
+      location: 'On-site | Full-Time',
       description:
-        'Implemented core ERP modules HR Management, Users & Roles, Reports, Orders, and Work Management.\nIntegrated ERP back-end systems through RESTful APIs, handling, authorization, and data synchronization.',
+        'Led key initiatives and delivered exceptional results.',
     },
     {
       id: 'exp-2',
       role: 'Junior Flutter Developer',
-      company: 'Jbr-Digital',
-      period: 'Jun 2024 -- May 2025',
-      location: 'On-site | Full-Time',
-      description:
-        'Built and maintained mobile apps while collaborating with cross-functional teams to deliver high-quality projects.\nIntegrated APIs and strictly followed clean code principles to ensure well-structured, maintainable codebases.',
-    },
-    {
-      id: 'exp-3',
-      role: 'Mentorship Flutter Development',
-      company: 'DAYRA',
-      period: 'Feb 2025 -- Sep 2025',
-      location: 'Remote',
-      description:
-        'intensive Flutter mentorship, mastering Clean Code, SOLID principles, and Clean Architecture for scalable apps.\nGained hands-on experience in BLoC/Cubit state management, feature design, and modular project structuring.',
-    },
-    {
-      id: 'exp-4',
-      role: 'Intern Flutter Developer',
       company: 'VFI Tech',
       period: 'Dec 2024 -- May 2025',
       location: 'Remote | Part-Time',
       description:
-        'Learned to create responsive UIs, decouple business logic from the interface, and routing.\nCollaborated using Git/GitHub within a team environment and mastered the core concepts of robust API handling.',
+        'Learned to create responsive UIs.',
     },
   ],
   education: [
@@ -313,31 +290,13 @@ export const LATEX_TEMPLATE_DEFAULT_DATA = {
   projects: [
     {
       id: 'project-1',
-      heading: 'Easy Bio App',
+      heading: 'Ecommerce App',
       subheading: 'Flutter',
       period: 'VFI',
       linkLabel: 'Google Play',
-      url: 'https://play.google.com/store/apps/details?id=com.abdelmoneim.easyBio',
+      url: 'https://play.google.com/',
       description:
-        'Contributed to a high school Biology Learning Platform, enabling students access educational videos online.\nIntegrated the mobile application with a website for seamless content delivery across platforms.',
-    },
-    {
-      id: 'project-2',
-      heading: 'Quran Memorization Center App',
-      subheading: 'Flutter, Hive, MVVM',
-      period: 'JBR - KSA',
-      description:
-        'Developed a comprehensive management app for students, teachers (Mohafez) at a Quran memorization center.\nUtilized Hive for local storage, MVVM architecture, and implemented local notifications.\nIntegrated APIs for Quran and Azkar, alongside features for quizzes, grades, reports, and attendance tracking.',
-    },
-    {
-      id: 'project-3',
-      heading: 'GOT App',
-      subheading: 'Flutter, BLoC, REST API',
-      period: '',
-      linkLabel: 'GitHub',
-      url: 'https://github.com/ABDO-OS/bloc.git',
-      description:
-        'Developed a sophisticated Flutter application to present and manage Game of Thrones characters.\nEfficiently fetched and displayed character details (name, title, family, images) via robust API integration.\nLeveraged  BLoC to manage complex application logic and ensure smooth data flow within an interactive UI.',
+        'Contributed to a high Ecommerce App Platform.',
     },
   ],
   customSections: [],

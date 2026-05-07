@@ -715,10 +715,9 @@
   .latex-rendered-paper,
   .latex-preview-paper,
   .latex-code-preview {
-    box-sizing: border-box !important;
     min-height: 297mm !important;
     border-radius: 0 !important;
-    padding: 4mm 14mm 8mm !important;
+    padding: 16mm !important;
   }
 
   .latex-preview-paper,
@@ -732,76 +731,5 @@
   .latex-rendered-paper * {
     print-color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
-  }
-
-  .latex-rendered-header {
-    padding-bottom: 1.8mm !important;
-    margin-bottom: 2mm !important;
-  }
-
-  .latex-rendered-name {
-    font-size: 13pt !important;
-    line-height: 1.1 !important;
-  }
-
-  .latex-rendered-contact,
-  .latex-rendered-links {
-    font-size: 6.8pt !important;
-    line-height: 1.15 !important;
-    margin-top: 0.8mm !important;
-  }
-
-  .latex-rendered-section {
-    break-inside: avoid !important;
-    margin-bottom: 1.6mm !important;
-    page-break-inside: avoid !important;
-  }
-
-  .latex-rendered-section--skills {
-    break-inside: avoid-page !important;
-    page-break-inside: avoid !important;
-  }
-
-  .latex-rendered-section-title {
-    break-after: avoid-page !important;
-    font-size: 8pt !important;
-    line-height: 1.1 !important;
-    padding-bottom: 0.4mm !important;
-    page-break-after: avoid !important;
-  }
-
-  .latex-rendered-text {
-    break-before: avoid-page !important;
-    font-size: 7pt !important;
-    line-height: 1.18 !important;
-    margin-top: 1mm !important;
-    page-break-before: avoid !important;
-  }
-
-  .latex-rendered-section--skills .latex-rendered-text {
-    font-size: 6.6pt !important;
-    line-height: 1.12 !important;
-    margin-top: 0.7mm !important;
-  }
-
-  .latex-rendered-item {
-    margin-top: 0.8mm !important;
-  }
-
-  .latex-rendered-item-head strong,
-  .latex-rendered-item-head span,
-  .latex-rendered-item-sub em {
-    font-size: 7pt !important;
-    line-height: 1.15 !important;
-  }
-
-  .latex-rendered-list {
-    margin: 0.4mm 0 0 4mm !important;
-  }
-
-  .latex-rendered-list li {
-    font-size: 6.8pt !important;
-    line-height: 1.12 !important;
-    margin-bottom: 0 !important;
   }
 }

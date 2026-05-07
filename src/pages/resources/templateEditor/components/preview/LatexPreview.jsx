@@ -110,7 +110,7 @@ const LatexRenderedPreview = ({ cvData, visibleCustomSections }) => (
     />
 
     {cvData.skills.length > 0 && (
-      <section className="latex-rendered-section latex-rendered-section--skills">
+      <section className="latex-rendered-section">
         <h4 className="latex-rendered-section-title">Technical Skills</h4>
         <p className="latex-rendered-text">{cvData.skills.join(', ')}</p>
       </section>

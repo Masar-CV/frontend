@@ -130,7 +130,7 @@ export const EXACT_LATEX_TEMPLATE = String.raw`%-------------------------
 
     \resumeSubheading
       {Junior Flutter Developer}{Dec 2025 -- Present}
-      {Codeikoo}{Hybrid $|$ Part-Time}
+      {Codeikoo}{OnSite $|$ Part-Time}
       \resumeItemListStart
         \resumeItem{Implemented core ERP modules HR Management, Users \& Roles, Reports, Orders, and Work Management.}
         \resumeItem{Integrated ERP back-end systems through RESTful APIs, handling, authorization, and data synchronization.}
@@ -269,7 +269,7 @@ export const LATEX_TEMPLATE_DEFAULT_DATA = {
       role: 'Junior Flutter Developer',
       company: 'Codeikoo',
       period: 'Dec 2025 -- Present',
-      location: 'Hybrid | Part-Time',
+      location: 'OnSite | Part-Time',
       description:
         'Implemented core ERP modules HR Management, Users & Roles, Reports, Orders, and Work Management.\nIntegrated ERP back-end systems through RESTful APIs, handling, authorization, and data synchronization.',
     },

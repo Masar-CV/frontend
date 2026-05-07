@@ -1,6 +1,6 @@
+import { ThinkingOverlay } from '../../../components/ui';
 import CVAnalysisHero from './CVAnalysisHero';
 import CVUploadPanel from './CVUploadPanel';
-import CVAnalysisThinkingOverlay from './CVAnalysisThinkingOverlay';
 import JobDescriptionPanel from './JobDescriptionPanel';
 
 const CVAnalysisFormView = ({
@@ -54,7 +54,12 @@ const CVAnalysisFormView = ({
       {isSubmitting ? 'Analyzing...' : 'Analyze My CV'}
     </button>
 
-    {isSubmitting && <CVAnalysisThinkingOverlay />}
+    {isSubmitting && (
+      <ThinkingOverlay
+        title="Thinking, analyzing your CV..."
+        description="Reading your resume, comparing job requirements, and scoring the match."
+      />
+    )}
   </main>
 );
 

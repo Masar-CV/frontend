@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../../../components/layout/Navbar';
 import Footer from '../../../components/layout/Footer';
+import { ThinkingOverlay } from '../../../components/ui';
 import { UploadCard } from '../../../features/cv-optimization';
 
 const CVOptimizationPageView = ({
@@ -153,6 +154,13 @@ const CVOptimizationPageView = ({
         </div>
       </div>
     </main>
+
+    {isLoading && (
+      <ThinkingOverlay
+        title="Thinking, optimizing your CV..."
+        description="Reviewing your resume, improving structure, and preparing your optimized version."
+      />
+    )}
 
     <Footer />
   </div>

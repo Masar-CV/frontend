@@ -1,10 +1,16 @@
-const CVAnalysisThinkingOverlay = () => (
-  <div className="cv-thinking-overlay" role="status" aria-live="polite">
-    <div className="cv-thinking-brand" aria-hidden="true">
-      MASAR
+import './ThinkingOverlay.css';
+
+const ThinkingOverlay = ({
+  brand = 'MASAR',
+  title = 'Thinking, analyzing...',
+  description = 'Processing your information and preparing the best result.',
+}) => (
+  <div className="thinking-overlay" role="status" aria-live="polite">
+    <div className="thinking-brand" aria-hidden="true">
+      {brand}
     </div>
 
-    <div className="cv-thinking-orbit" aria-hidden="true">
+    <div className="thinking-orbit" aria-hidden="true">
       <span className="thinking-icon document">
         <svg viewBox="0 0 24 24">
           <path d="M7 3.5h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5A1.5 1.5 0 0 1 7.5 3.5Z" />
@@ -29,16 +35,16 @@ const CVAnalysisThinkingOverlay = () => (
       </span>
     </div>
 
-    <div className="cv-thinking-card">
-      <div className="cv-thinking-loader" aria-hidden="true">
+    <div className="thinking-card">
+      <div className="thinking-loader" aria-hidden="true">
         <span />
         <span />
         <span />
       </div>
-      <h2>Thinking, analyzing your CV...</h2>
-      <p>Reading your resume, comparing job requirements, and scoring the match.</p>
+      <h2>{title}</h2>
+      <p>{description}</p>
     </div>
   </div>
 );
 
-export default CVAnalysisThinkingOverlay;
+export default ThinkingOverlay;

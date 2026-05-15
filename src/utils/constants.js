@@ -22,6 +22,8 @@ export const API_CONFIG = {
     },
     CV: {
       OPTIMIZE: '/api/cv/optimize',
+      DOWNLOAD: '/api/cv/download',
+      OPTIMIZATION_DOWNLOAD: (id) => `/api/cv/optimizations/${id}/download`,
       MATCH: '/api/cv-jd-match',
       MATCH_HISTORY: '/api/cv-jd-match/history',
       MATCH_DETAILS: (id) => `/api/cv-jd-match/${id}`,

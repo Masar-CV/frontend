@@ -53,15 +53,27 @@
 
 /**
  * @typedef {Object} SkillsDetected
- * @property {string[]} [Programming Languages]
- * @property {string[]} [Frontend]
- * @property {string[]} [Backend]
- * @property {string[]} [Databases]
- * @property {string[]} [AI/ML]
- * @property {string[]} [Tools]
- * @property {string[]} [Architecture]
- * @property {string[]} [DevOps]
- * @property {string[]} [Cloud]
+ * @property {(string|SkillWithProficiency)[]} [Programming Languages]
+ * @property {(string|SkillWithProficiency)[]} [Frontend]
+ * @property {(string|SkillWithProficiency)[]} [Backend]
+ * @property {(string|SkillWithProficiency)[]} [Databases]
+ * @property {(string|SkillWithProficiency)[]} [AI/ML]
+ * @property {(string|SkillWithProficiency)[]} [Tools]
+ * @property {(string|SkillWithProficiency)[]} [Architecture]
+ * @property {(string|SkillWithProficiency)[]} [DevOps]
+ * @property {(string|SkillWithProficiency)[]} [Cloud]
+ */
+
+/**
+ * @typedef {1|2|3|4} ProficiencyLevel
+ */
+
+/**
+ * @typedef {Object} SkillWithProficiency
+ * @property {string} [skillName]
+ * @property {string} [name]
+ * @property {ProficiencyLevel} [proficiencyLevel]
+ * @property {string} [proficiencyLevelName]
  */
 
 /**
@@ -119,7 +131,7 @@
  * @property {number} qualityScore
  * @property {string} grade
  * @property {string} fileName
- * @property {string} downloadUrl
+ * @property {string} [downloadUrl]
  * @property {CVMetadata} metadata
  * @property {ContactInfo} contactInfo
  * @property {string} summary
@@ -145,6 +157,29 @@
  * @property {string|null} error
  * @property {number} progress
  */
+
+/**
+ * @typedef {Object} ProblemDetails
+ * @property {string} type
+ * @property {string} title
+ * @property {number} status
+ * @property {string} detail
+ * @property {string} instance
+ */
+
+export const PROFICIENCY_LEVELS = {
+  BEGINNER: 1,
+  INTERMEDIATE: 2,
+  ADVANCED: 3,
+  EXPERT: 4
+};
+
+export const PROFICIENCY_LABELS = {
+  [PROFICIENCY_LEVELS.BEGINNER]: 'Beginner',
+  [PROFICIENCY_LEVELS.INTERMEDIATE]: 'Intermediate',
+  [PROFICIENCY_LEVELS.ADVANCED]: 'Advanced',
+  [PROFICIENCY_LEVELS.EXPERT]: 'Expert'
+};
 
 export const OPTIMIZATION_STATUS = {
   IDLE: 'idle',

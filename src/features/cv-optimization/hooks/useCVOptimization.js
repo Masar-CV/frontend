@@ -78,16 +78,19 @@ const useCVOptimization = () => {
   }, [selectedFile]);
 
   /**
-   * Downloads the optimized CV
+   * Downloads a saved CV
    */
-  const handleDownload = useCallback(async () => {
-    if (!result?.downloadUrl) {
+  const handleDownload = useCallback(async (optimizationId = null, fileName = null) => {
+    const id = optimizationId || result?.optimizationId;
+    const name = fileName || result?.fileName;
+
+    if (!id && !result) {
       setError('No download available');
       return;
     }
 
     try {
-      await downloadOptimizedCV(result.downloadUrl, result.fileName);
+      await downloadOptimizedCV(id, name);
     } catch (err) {
       setError(err.message || 'Failed to download file');
     }

@@ -7,6 +7,7 @@ import tokenManager from '../../../utils/tokenManager';
 import { API_CONFIG } from '../../../utils/constants';
 
 const API_BASE_URL = API_CONFIG.BASE_URL;
+const ENDPOINTS = API_CONFIG.ENDPOINTS.CV;
 
 /**
  * Custom error class for API errors
@@ -53,6 +54,47 @@ const validateFile = (file) => {
       400
     );
   }
+};
+
+const parseDownloadFileName = (contentDisposition, fallback = 'saved-cv.docx') => {
+  if (!contentDisposition) return fallback;
+
+  const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+  if (utf8Match?.[1]) {
+    try {
+      return decodeURIComponent(utf8Match[1]).replace(/["']/g, '');
+    } catch {
+      return utf8Match[1].replace(/["']/g, '');
+    }
+  }
+
+  const basicMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+  return basicMatch?.[1] || fallback;
+};
+
+const getProblemDetailsMessage = async (response, fallbackMessage) => {
+  const contentType = response.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    return fallbackMessage;
+  }
+
+  try {
+    const errorData = await response.json();
+    return errorData.detail || errorData.title || errorData.message || errorData.error || fallbackMessage;
+  } catch {
+    return fallbackMessage;
+  }
+};
+
+const triggerBrowserDownload = (blob, fileName) => {
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName || 'saved-cv.docx';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
 };
 
 /**
@@ -112,7 +154,7 @@ export const optimizeCV = async (file, onProgress = null) => {
         reject(new CVOptimizationError('Request timed out. Please try again.'));
       });
 
-      xhr.open('POST', `${API_BASE_URL}/api/cv/optimize`);
+      xhr.open('POST', `${API_BASE_URL}${ENDPOINTS.OPTIMIZE}`);
       xhr.timeout = 120000; // 2 minutes timeout
       
       // Add Authorization header if token exists
@@ -142,40 +184,34 @@ export const optimizeCV = async (file, onProgress = null) => {
 };
 
 /**
- * Downloads the optimized CV
- * @param {string} downloadUrl - The download URL from the API response
+ * Downloads a saved CV from a fixed API endpoint.
+ * @param {string|null} optimizationId - Optional optimization ID for result-specific downloads
  * @param {string} fileName - The filename for the download
  */
-export const downloadOptimizedCV = async (downloadUrl, fileName) => {
+export const downloadOptimizedCV = async (optimizationId = null, fileName = 'saved-cv.docx') => {
   try {
-    // For download, use relative URL if in development (proxy), otherwise full URL
-    const fullUrl = downloadUrl.startsWith('http') 
-      ? downloadUrl 
-      : downloadUrl.startsWith('/api') 
-        ? `${API_BASE_URL}${downloadUrl}`
-        : `${API_BASE_URL}/api${downloadUrl}`;
-
+    const endpoint = optimizationId
+      ? ENDPOINTS.OPTIMIZATION_DOWNLOAD(optimizationId)
+      : ENDPOINTS.DOWNLOAD;
     const headers = tokenManager.getAuthHeader();
-    const response = await fetch(fullUrl, { headers });
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, { headers });
     
     if (!response.ok) {
-      throw new CVOptimizationError('Failed to download file', response.status);
+      const errorMessage = await getProblemDetailsMessage(response, 'Failed to download file');
+      throw new CVOptimizationError(errorMessage, response.status);
     }
 
     const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName || 'optimized-cv.docx';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    const responseFileName = parseDownloadFileName(
+      response.headers.get('content-disposition'),
+      fileName
+    );
+    triggerBrowserDownload(blob, responseFileName);
   } catch (error) {
     if (error instanceof CVOptimizationError) {
       throw error;
     }
-    throw new CVOptimizationError('Failed to download the optimized CV');
+    throw new CVOptimizationError('Failed to download the saved CV');
   }
 };
 
@@ -192,7 +228,8 @@ export const getOptimizationById = async (optimizationId) => {
     });
     
     if (!response.ok) {
-      throw new CVOptimizationError('Failed to fetch optimization result', response.status);
+      const errorMessage = await getProblemDetailsMessage(response, 'Failed to fetch optimization result');
+      throw new CVOptimizationError(errorMessage, response.status);
     }
 
     return await response.json();

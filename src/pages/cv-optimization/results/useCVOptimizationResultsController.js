@@ -16,10 +16,13 @@ const useCVOptimizationResultsController = () => {
   }, [location.state, result, setResultData, navigate]);
 
   const data = location.state?.result || result;
+  const downloadResult = () => {
+    handleDownload(data?.optimizationId, data?.fileName);
+  };
 
   return {
     data,
-    handleDownload,
+    handleDownload: downloadResult,
   };
 };
 

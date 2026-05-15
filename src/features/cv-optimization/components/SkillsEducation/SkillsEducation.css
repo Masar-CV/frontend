@@ -59,11 +59,18 @@
 .skill-chip {
   display: inline-flex;
   align-items: center;
+  gap: 0.375rem;
   padding: 0.375rem 0.75rem;
   border-radius: 20px;
   font-size: 0.8125rem;
   font-weight: 500;
   transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.skill-chip-level {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  opacity: 0.72;
 }
 
 .skill-chip:hover {

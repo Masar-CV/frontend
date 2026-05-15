@@ -1,3 +1,4 @@
+import { PROFICIENCY_LABELS } from '../../types';
 import './SkillsEducation.css';
 
 const CATEGORY_COLORS = {
@@ -19,6 +20,18 @@ const CATEGORY_COLORS = {
 const SkillsEducation = ({ skillsDetected, education, projects, certifications }) => {
   const getCategoryStyle = (category) => {
     return CATEGORY_COLORS[category] || { bg: '#f3f4f6', text: '#374151' };
+  };
+
+  const normalizeSkill = (skill) => {
+    if (typeof skill === 'string') {
+      return { name: skill, proficiencyLabel: null };
+    }
+
+    const proficiencyLevel = Number(skill?.proficiencyLevel);
+    return {
+      name: skill?.skillName || skill?.name || skill?.title || '',
+      proficiencyLabel: skill?.proficiencyLevelName || PROFICIENCY_LABELS[proficiencyLevel] || null,
+    };
   };
 
   const skillCategories = Object.entries(skillsDetected || {}).filter(
@@ -46,15 +59,25 @@ const SkillsEducation = ({ skillsDetected, education, projects, certifications }
                 <div key={category} className="skill-category">
                   <h3 className="category-name">{category}</h3>
                   <div className="skills-chips">
-                    {skills.map((skill, index) => (
+                    {skills.map((skill, index) => {
+                      const normalizedSkill = normalizeSkill(skill);
+                      if (!normalizedSkill.name) return null;
+
+                      return (
                       <span 
                         key={index} 
                         className="skill-chip"
                         style={{ backgroundColor: style.bg, color: style.text }}
                       >
-                        {skill}
+                        {normalizedSkill.name}
+                        {normalizedSkill.proficiencyLabel && (
+                          <span className="skill-chip-level">
+                            {normalizedSkill.proficiencyLabel}
+                          </span>
+                        )}
                       </span>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               );

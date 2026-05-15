@@ -1,17 +1,19 @@
 import { ThinkingOverlay } from '../../../components/ui';
 import CVAnalysisHero from './CVAnalysisHero';
+import CVAnalysisHistory from './CVAnalysisHistory';
 import CVUploadPanel from './CVUploadPanel';
 import JobDescriptionPanel from './JobDescriptionPanel';
 
 const CVAnalysisFormView = ({
   fileInputRef,
   selectedFile,
-  cvText,
   jobDescription,
   isDragging,
   isSubmitting,
   errorMessage,
-  setCvText,
+  historyItems,
+  isHistoryLoading,
+  historyErrorMessage,
   setJobDescription,
   setIsDragging,
   setSelectedFile,
@@ -19,17 +21,23 @@ const CVAnalysisFormView = ({
   handleFilePicked,
   handleDrop,
   handleAnalyze,
+  handleOpenHistoryItem,
 }) => (
   <main className="cv-analysis-main">
     <CVAnalysisHero />
+
+    <CVAnalysisHistory
+      historyItems={historyItems}
+      isHistoryLoading={isHistoryLoading}
+      historyErrorMessage={historyErrorMessage}
+      handleOpenHistoryItem={handleOpenHistoryItem}
+    />
 
     <section className="cv-analysis-panels">
       <CVUploadPanel
         fileInputRef={fileInputRef}
         selectedFile={selectedFile}
-        cvText={cvText}
         isDragging={isDragging}
-        setCvText={setCvText}
         setIsDragging={setIsDragging}
         setSelectedFile={setSelectedFile}
         openFileDialog={openFileDialog}

@@ -28,6 +28,11 @@ const validateInput = (file, jobDescription) => {
   }
 };
 
+const getApiProblemMessage = (error) => {
+  const data = error.response?.data;
+  return data?.detail || data?.title || errorHandler.getUiMessage(error);
+};
+
 const cvMatchService = {
   matchCV: async ({ file, jobDescription }) => {
     validateInput(file, jobDescription);
@@ -47,7 +52,27 @@ const cvMatchService = {
       return response.data;
     } catch (error) {
       errorHandler.logError('cvMatchService.matchCV', error);
-      throw new Error(errorHandler.getUiMessage(error));
+      throw new Error(getApiProblemMessage(error));
+    }
+  },
+
+  getHistory: async () => {
+    try {
+      const response = await httpClient.get(API_CONFIG.ENDPOINTS.CV.MATCH_HISTORY);
+      return Array.isArray(response.data) ? response.data : [];
+    } catch (error) {
+      errorHandler.logError('cvMatchService.getHistory', error);
+      throw new Error(getApiProblemMessage(error));
+    }
+  },
+
+  getById: async (id) => {
+    try {
+      const response = await httpClient.get(API_CONFIG.ENDPOINTS.CV.MATCH_DETAILS(id));
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('cvMatchService.getById', error);
+      throw new Error(getApiProblemMessage(error));
     }
   },
 };

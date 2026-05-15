@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import cvMatchService from '../../../services/cvMatchService';
 import { buildCVAnalysisResult } from './cvAnalysisResultMapper';
 
@@ -7,13 +7,15 @@ const useCVAnalysisController = () => {
   const coursesRef = useRef(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [cvText, setCvText] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [matchResult, setMatchResult] = useState(null);
   const [showCourses, setShowCourses] = useState(false);
+  const [historyItems, setHistoryItems] = useState([]);
+  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+  const [historyErrorMessage, setHistoryErrorMessage] = useState('');
 
   const computed = useMemo(
     () => buildCVAnalysisResult(matchResult),
@@ -23,6 +25,24 @@ const useCVAnalysisController = () => {
   const openFileDialog = () => {
     fileInputRef.current?.click();
   };
+
+  const loadHistory = useCallback(async () => {
+    setIsHistoryLoading(true);
+    setHistoryErrorMessage('');
+
+    try {
+      const history = await cvMatchService.getHistory();
+      setHistoryItems(history);
+    } catch (error) {
+      setHistoryErrorMessage(error.message || 'Unable to load analysis history.');
+    } finally {
+      setIsHistoryLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
 
   const handleFilePicked = (event) => {
     const file = event.target.files?.[0];
@@ -52,6 +72,7 @@ const useCVAnalysisController = () => {
 
       setMatchResult(response);
       setShowCourses(false);
+      loadHistory();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       setErrorMessage(error.message || 'Unable to analyze CV right now.');
@@ -60,10 +81,26 @@ const useCVAnalysisController = () => {
     }
   };
 
+  const handleOpenHistoryItem = async (id) => {
+    setErrorMessage('');
+    setHistoryErrorMessage('');
+    setIsSubmitting(true);
+
+    try {
+      const response = await cvMatchService.getById(id);
+      setMatchResult(response);
+      setShowCourses(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      setHistoryErrorMessage(error.message || 'Unable to open analysis result.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleAnalyzeAnother = () => {
     setMatchResult(null);
     setSelectedFile(null);
-    setCvText('');
     setJobDescription('');
     setErrorMessage('');
     setShowCourses(false);
@@ -99,14 +136,15 @@ const useCVAnalysisController = () => {
     fileInputRef,
     coursesRef,
     selectedFile,
-    cvText,
     jobDescription,
     isDragging,
     isSubmitting,
     errorMessage,
     computed,
     showCourses,
-    setCvText,
+    historyItems,
+    isHistoryLoading,
+    historyErrorMessage,
     setJobDescription,
     setIsDragging,
     setSelectedFile,
@@ -114,6 +152,7 @@ const useCVAnalysisController = () => {
     handleFilePicked,
     handleDrop,
     handleAnalyze,
+    handleOpenHistoryItem,
     handleAnalyzeAnother,
     handleShowCourses,
     handleExportReport,

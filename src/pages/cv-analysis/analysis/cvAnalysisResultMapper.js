@@ -13,31 +13,39 @@ const severityFromScore = (score) => {
 export const buildCVAnalysisResult = (matchResult) => {
   if (!matchResult) return null;
 
-  const finalScore = formatPercent(matchResult.final_score);
-  const hardSkillExact = formatPercent(matchResult.scores?.hard_skill_exact);
+  const result = matchResult.result || matchResult;
+
+  const finalScore = formatPercent(result.final_score ?? matchResult.finalScore);
+  const hardSkillExact = formatPercent(
+    result.scores?.hard_skill_exact ?? matchResult.hardSkillExact
+  );
   const hardSkillWithBoost = formatPercent(
-    matchResult.scores?.hard_skill_with_boost
+    result.scores?.hard_skill_with_boost ?? matchResult.hardSkillWithBoost
   );
-  const experienceMatch = formatPercent(matchResult.scores?.experience_match);
+  const experienceMatch = formatPercent(
+    result.scores?.experience_match ?? matchResult.experienceMatch
+  );
   const semanticSimilarity = formatPercent(
-    matchResult.scores?.semantic_similarity
+    result.scores?.semantic_similarity ?? matchResult.semanticSimilarity
   );
-  const familyBoostPct = formatPercent(matchResult.scores?.family_boost_pct);
+  const familyBoostPct = formatPercent(
+    result.scores?.family_boost_pct ?? matchResult.familyBoostPct
+  );
 
-  const cvSkills = Array.isArray(matchResult.cv_skills)
-    ? matchResult.cv_skills
+  const cvSkills = Array.isArray(result.cv_skills)
+    ? result.cv_skills
     : [];
-  const jdSkills = Array.isArray(matchResult.jd_skills)
-    ? matchResult.jd_skills
+  const jdSkills = Array.isArray(result.jd_skills)
+    ? result.jd_skills
     : [];
-  const matchingSkills = Array.isArray(matchResult.matching_skills)
-    ? matchResult.matching_skills
+  const matchingSkills = Array.isArray(result.matching_skills)
+    ? result.matching_skills
     : [];
-  const missingSkills = Array.isArray(matchResult.missing_skills)
-    ? matchResult.missing_skills
+  const missingSkills = Array.isArray(result.missing_skills)
+    ? result.missing_skills
     : [];
 
-  const transferableSkills = matchResult.transferable_skills || {};
+  const transferableSkills = result.transferable_skills || {};
   const transferableSkillsList = Object.entries(transferableSkills).map(
     ([skill, data]) => ({
       skill,
@@ -48,14 +56,15 @@ export const buildCVAnalysisResult = (matchResult) => {
   );
 
   const courseRecommendations = Array.isArray(
-    matchResult.course_recommendations
+    result.course_recommendations
   )
-    ? matchResult.course_recommendations
+    ? result.course_recommendations
     : [];
 
   const yearsGap = Math.max(
     0,
-    Number(matchResult.jd_years || 0) - Number(matchResult.cv_years || 0)
+    Number((result.jd_years ?? matchResult.jdYears) || 0) -
+      Number((result.cv_years ?? matchResult.cvYears) || 0)
   );
 
   const areasToImprove = [
@@ -69,8 +78,8 @@ export const buildCVAnalysisResult = (matchResult) => {
     {
       title: 'Experience Gap',
       description: yearsGap
-        ? `Your CV shows ${matchResult.cv_years} year(s), while the job asks for ${matchResult.jd_years} year(s).`
-        : `Experience level is aligned (${matchResult.cv_years || 0} years).`,
+        ? `Your CV shows ${result.cv_years ?? matchResult.cvYears} year(s), while the job asks for ${result.jd_years ?? matchResult.jdYears} year(s).`
+        : `Experience level is aligned (${(result.cv_years ?? matchResult.cvYears) || 0} years).`,
       severity: yearsGap >= 2 ? 'high' : yearsGap === 1 ? 'medium' : 'low',
     },
     {
@@ -92,7 +101,7 @@ export const buildCVAnalysisResult = (matchResult) => {
       ? `Strengthen achievements to compensate for the ${yearsGap}-year experience gap.`
       : 'Emphasize your strongest role impact to reinforce experience alignment.',
     'Prioritize adding exact terminology from the job description in your project and experience bullets.',
-    `Hard skills weight is ${(Number(matchResult.weights?.hard_skills || 0) * 100).toFixed(0)}%, so prioritize skill section improvements.`,
+    `Hard skills weight is ${(Number(result.weights?.hard_skills || 0) * 100).toFixed(0)}%, so prioritize skill section improvements.`,
     transferableSkillsList.length
       ? `Leverage your transferable skills: ${transferableSkillsList
           .slice(0, 3)
@@ -114,8 +123,8 @@ export const buildCVAnalysisResult = (matchResult) => {
 
   return {
     finalScore,
-    grade: matchResult.grade || 'Unrated',
-    color: matchResult.color || '#2563eb',
+    grade: result.grade || matchResult.grade || 'Unrated',
+    color: result.color || matchResult.color || '#2563eb',
     gradeMessage,
     hardSkillExact,
     hardSkillWithBoost,
@@ -124,9 +133,9 @@ export const buildCVAnalysisResult = (matchResult) => {
     familyBoostPct,
     areasToImprove: areasToImprove.slice(0, 3),
     suggestedEdits,
-    metadata: matchResult.cv_metadata || {},
-    cvYears: matchResult.cv_years || 0,
-    jdYears: matchResult.jd_years || 0,
+    metadata: result.cv_metadata || {},
+    cvYears: result.cv_years ?? matchResult.cvYears ?? 0,
+    jdYears: result.jd_years ?? matchResult.jdYears ?? 0,
     cvSkills: cvSkills.map(formatSkill),
     jdSkills: jdSkills.map(formatSkill),
     matchingSkills: matchingSkills.map(formatSkill),
@@ -137,8 +146,8 @@ export const buildCVAnalysisResult = (matchResult) => {
     totalJdSkills: jdSkills.length,
     totalMatchingSkills: matchingSkills.length,
     totalMissingSkills: missingSkills.length,
-    weights: matchResult.weights || {},
+    weights: result.weights || {},
     courseRecommendations,
-    jdWarning: matchResult.jd_warning || null,
+    jdWarning: result.jd_warning || matchResult.jdWarning || null,
   };
 };

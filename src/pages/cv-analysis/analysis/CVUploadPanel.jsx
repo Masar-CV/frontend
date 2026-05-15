@@ -3,9 +3,7 @@ import { cvFileLabel } from './cvAnalysisFormatters';
 const CVUploadPanel = ({
   fileInputRef,
   selectedFile,
-  cvText,
   isDragging,
-  setCvText,
   setIsDragging,
   setSelectedFile,
   openFileDialog,
@@ -75,18 +73,6 @@ const CVUploadPanel = ({
         </>
       )}
     </div>
-
-    <div className="cv-divider">
-      <span>OR</span>
-    </div>
-
-    <label htmlFor="cv-text">Paste CV Text</label>
-    <textarea
-      id="cv-text"
-      placeholder="Paste your CV content here..."
-      value={cvText}
-      onChange={(event) => setCvText(event.target.value)}
-    />
   </article>
 );
 

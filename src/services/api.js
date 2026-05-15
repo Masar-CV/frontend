@@ -5,8 +5,9 @@
 
 import httpClient from './httpClient';
 import authService from './authService';
+import jobApplicationService from './jobApplicationService';
 
-export { httpClient, authService };
+export { httpClient, authService, jobApplicationService };
 
 export default httpClient;
 

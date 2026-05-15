@@ -1,4 +1,9 @@
-const ApplicationsTable = ({ applications }) => (
+const ApplicationsTable = ({
+  applications,
+  deletingApplicationId,
+  onDeleteApplication,
+  onEditApplication,
+}) => (
   <section className="job-tracker-table-wrap">
     <h2>All Applications</h2>
     <p className="job-tracker-table-hint">
@@ -22,7 +27,7 @@ const ApplicationsTable = ({ applications }) => (
         </thead>
         <tbody>
           {applications.map((app) => (
-            <tr key={`table-${app.company}`}>
+            <tr key={`table-${app.id || app.company}`}>
               <td>{app.company}</td>
               <td>{app.position}</td>
               <td>
@@ -36,13 +41,31 @@ const ApplicationsTable = ({ applications }) => (
               <td>{app.contact}</td>
               <td className="notes">{app.notes}</td>
               <td className="actions">
-                <button type="button" aria-label={`More options for ${app.company}`}>
-                  <svg viewBox="0 0 20 20" aria-hidden="true">
-                    <circle cx="10" cy="10" r="1.4" />
-                    <circle cx="5" cy="10" r="1.4" />
-                    <circle cx="15" cy="10" r="1.4" />
-                  </svg>
-                </button>
+                <div className="job-tracker-actions">
+                  <button
+                    type="button"
+                    aria-label={`Edit ${app.company}`}
+                    title="Edit"
+                    onClick={() => onEditApplication(app)}
+                  >
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M4 14.2V16h1.8l8.9-8.9-1.8-1.8L4 14.2Z" />
+                      <path d="M12 4.4l1.8-1.8 1.8 1.8-1.8 1.8L12 4.4Z" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    className="danger"
+                    aria-label={`Delete ${app.company}`}
+                    title="Delete"
+                    disabled={deletingApplicationId === app.id}
+                    onClick={() => onDeleteApplication(app)}
+                  >
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M5.5 7h9M8 7V5.2h4V7M7 7.8l.5 7h5l.5-7" />
+                    </svg>
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
@@ -53,7 +76,7 @@ const ApplicationsTable = ({ applications }) => (
     <div className="job-tracker-mobile-list">
       {applications.map((app) => (
         <article
-          key={`mobile-${app.company}`}
+          key={`mobile-${app.id || app.company}`}
           className="job-tracker-mobile-card"
         >
           <div className="job-tracker-mobile-head">
@@ -86,6 +109,24 @@ const ApplicationsTable = ({ applications }) => (
           </div>
 
           <p className="job-tracker-mobile-notes">{app.notes}</p>
+
+          <div className="job-tracker-mobile-actions">
+            <button
+              type="button"
+              className="job-tracker-mobile-edit"
+              onClick={() => onEditApplication(app)}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className="job-tracker-mobile-delete"
+              disabled={deletingApplicationId === app.id}
+              onClick={() => onDeleteApplication(app)}
+            >
+              {deletingApplicationId === app.id ? 'Deleting...' : 'Delete'}
+            </button>
+          </div>
         </article>
       ))}
     </div>

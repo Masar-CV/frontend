@@ -36,6 +36,13 @@ export const API_CONFIG = {
       CV_DOWNLOAD: '/api/profile/cv/download',
       EMAIL_PREFERENCES: '/api/profile/email-preferences',
     },
+    JOB_APPLICATIONS: {
+      LIST: '/api/job-applications',
+      CREATE: '/api/job-applications',
+      UPDATE: (id) => `/api/job-applications/${id}`,
+      DELETE: (id) => `/api/job-applications/${id}`,
+      SUMMARY: '/api/job-applications/summary',
+    },
   },
 };
 

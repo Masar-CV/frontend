@@ -6,7 +6,7 @@ const RecentApplications = ({ applications }) => (
 
     <div className="job-tracker-recent-grid">
       {applications.map((app) => (
-        <article key={app.company} className="job-tracker-recent-card">
+        <article key={app.id || app.company} className="job-tracker-recent-card">
           <h3>{app.company}</h3>
           <p className="job-tracker-position">{app.position}</p>
 

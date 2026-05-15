@@ -38,6 +38,7 @@ export const API_CONFIG = {
     },
     JOB_APPLICATIONS: {
       LIST: '/api/job-applications',
+      RECENT: '/api/job-applications/recent',
       CREATE: '/api/job-applications',
       UPDATE: (id) => `/api/job-applications/${id}`,
       DELETE: (id) => `/api/job-applications/${id}`,

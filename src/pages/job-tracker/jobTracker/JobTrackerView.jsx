@@ -151,8 +151,15 @@ const toFormData = (application) => ({
   appliedDate: application.appliedDateInput || today,
 });
 
+const replaceApplicationById = (applications, nextApplication) => (
+  applications.map((application) => (
+    application.id === nextApplication.id ? nextApplication : application
+  ))
+);
+
 const JobTrackerView = () => {
   const [applications, setApplications] = useState([]);
+  const [recentApplications, setRecentApplications] = useState([]);
   const [summaryStats, setSummaryStats] = useState(mapSummaryStats());
   const [formData, setFormData] = useState(emptyForm);
   const [editingApplication, setEditingApplication] = useState(null);
@@ -173,20 +180,23 @@ const JobTrackerView = () => {
       setLoadError('');
 
       try {
-        const [listData, summaryData] = await Promise.all([
+        const [listData, recentData, summaryData] = await Promise.all([
           jobApplicationService.list({
             page: 1,
             pageSize: 20,
             sort: 'datecreated',
             sortDir: 'desc',
           }),
+          jobApplicationService.recent({ take: 10 }),
           jobApplicationService.summary(),
         ]);
 
         if (isActive) {
           const mappedApplications = (listData.items || []).map(mapApplication);
+          const mappedRecentApplications = (recentData || []).map(mapApplication);
 
           setApplications(mappedApplications);
+          setRecentApplications(mappedRecentApplications);
           setSummaryStats(summaryData ? mapSummaryStats(summaryData) : buildSummaryStats(mappedApplications));
         }
       } catch (error) {
@@ -235,6 +245,7 @@ const JobTrackerView = () => {
       await jobApplicationService.delete(application.id);
 
       setApplications((current) => current.filter((item) => item.id !== application.id));
+      setRecentApplications((current) => current.filter((item) => item.id !== application.id));
       setSummaryStats((current) => decrementSummaryStats(current, application.statusTone));
     } catch (error) {
       setActionError(error.message);
@@ -275,11 +286,8 @@ const JobTrackerView = () => {
         const updatedApplication = await jobApplicationService.update(editingApplication.id, payload);
         const mappedApplication = mapApplication(updatedApplication);
 
-        setApplications((current) => (
-          current.map((application) => (
-            application.id === mappedApplication.id ? mappedApplication : application
-          ))
-        ));
+        setApplications((current) => replaceApplicationById(current, mappedApplication));
+        setRecentApplications((current) => replaceApplicationById(current, mappedApplication));
         setSummaryStats((current) => (
           adjustSummaryStats(current, editingApplication.statusTone, mappedApplication.statusTone)
         ));
@@ -293,6 +301,7 @@ const JobTrackerView = () => {
       const mappedApplication = mapApplication(createdApplication);
 
       setApplications((current) => [mappedApplication, ...current]);
+      setRecentApplications((current) => [mappedApplication, ...current].slice(0, 10));
       setSummaryStats((current) => (
         current.length > 0
           ? incrementSummaryStats(current, mappedApplication.statusTone)
@@ -333,15 +342,15 @@ const JobTrackerView = () => {
           </p>
         )}
 
-        {!isLoading && !loadError && applications.length === 0 && (
+        {!isLoading && !loadError && applications.length === 0 && recentApplications.length === 0 && (
           <p className="job-tracker-state">
             No job applications yet.
           </p>
         )}
 
-        {!isLoading && !loadError && applications.length > 0 && (
+        {!isLoading && !loadError && (applications.length > 0 || recentApplications.length > 0) && (
           <>
-            <RecentApplications applications={applications} />
+            <RecentApplications applications={recentApplications} />
             <ApplicationsTable
               applications={applications}
               deletingApplicationId={deletingApplicationId}

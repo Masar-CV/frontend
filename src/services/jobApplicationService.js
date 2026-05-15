@@ -75,6 +75,19 @@ const jobApplicationService = {
     }
   },
 
+  recent: async ({ take = 10 } = {}) => {
+    try {
+      const response = await httpClient.get(API_CONFIG.ENDPOINTS.JOB_APPLICATIONS.RECENT, {
+        params: { take },
+      });
+
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('jobApplicationService.recent', error);
+      throw new Error(errorHandler.getUiMessage(error));
+    }
+  },
+
   create: async (application) => {
     try {
       const response = await httpClient.post(

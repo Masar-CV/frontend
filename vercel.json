@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net/api/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ]
+}

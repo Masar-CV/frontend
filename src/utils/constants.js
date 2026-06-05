@@ -4,13 +4,16 @@ export const APP_NAME = 'Masar';
 // ============================================
 // API Configuration
 // ============================================
-// In development, we use Vite proxy (empty string for BASE_URL)
-// In production, use the full API URL
-const isDevelopment = import.meta.env.DEV;
+// By default, use relative /api URLs:
+// - local dev is handled by the Vite proxy in vite.config.js
+// - Vercel is handled by rewrites in vercel.json
+// Set VITE_API_BASE_URL only if you want the browser to call an API origin directly.
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || '';
+const fallbackApiUrl = 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net';
 
 export const API_CONFIG = {
-  BASE_URL: isDevelopment ? '' : 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net',
-  FULL_API_URL: 'https://masar-api-emhwehcgh5a8bwhh.italynorth-01.azurewebsites.net',
+  BASE_URL: configuredApiBaseUrl,
+  FULL_API_URL: configuredApiBaseUrl || fallbackApiUrl,
   TIMEOUT: 30000,
   ENDPOINTS: {
     AUTH: {

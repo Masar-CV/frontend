@@ -1,15 +1,13 @@
 import micBotImage from '../../../assets/images/mice.svg';
-import {
-  DIFFICULTY_OPTIONS,
-  EXPECTATIONS,
-  JOB_ROLE_OPTIONS,
-} from './mockInterviewData';
+import { EXPECTATIONS } from './mockInterviewData';
 
 const SetupScreen = ({
-  jobRole,
-  difficulty,
-  setJobRole,
-  setDifficulty,
+  cvFile,
+  jobDescription,
+  setupError,
+  isGenerating,
+  setCvFile,
+  setJobDescription,
   handleStartInterview,
 }) => (
   <>
@@ -31,36 +29,28 @@ const SetupScreen = ({
       </div>
 
       <div className="mi1-field">
-        <label htmlFor="jobRole">Job Role</label>
-        <select
-          id="jobRole"
-          value={jobRole}
-          onChange={(event) => setJobRole(event.target.value)}
-        >
-          <option value="">Select a job role</option>
-          {JOB_ROLE_OPTIONS.map((role) => (
-            <option key={role} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
+        <label htmlFor="cvFile">Upload CV</label>
+        <input
+          id="cvFile"
+          type="file"
+          accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          onChange={(event) => setCvFile(event.target.files?.[0] || null)}
+        />
+        {cvFile && <p className="mi1-file-name">{cvFile.name}</p>}
       </div>
 
       <div className="mi1-field">
-        <label htmlFor="difficulty">Difficulty Level</label>
-        <select
-          id="difficulty"
-          value={difficulty}
-          onChange={(event) => setDifficulty(event.target.value)}
-        >
-          <option value="">Select difficulty</option>
-          {DIFFICULTY_OPTIONS.map((level) => (
-            <option key={level} value={level}>
-              {level}
-            </option>
-          ))}
-        </select>
+        <label htmlFor="jobDescription">Job Description</label>
+        <textarea
+          id="jobDescription"
+          value={jobDescription}
+          onChange={(event) => setJobDescription(event.target.value)}
+          placeholder="Paste the job description here..."
+          className="mi1-description-input"
+        />
       </div>
+
+      {setupError && <p className="mi1-error">{setupError}</p>}
 
       <div className="mi1-expect">
         <h3>What to Expect:</h3>
@@ -81,9 +71,10 @@ const SetupScreen = ({
         type="button"
         className="mi1-start-btn"
         onClick={handleStartInterview}
+        disabled={isGenerating}
       >
         <span className="mi1-play">&gt;</span>
-        Start Interview
+        {isGenerating ? 'Generating Questions...' : 'Start Interview'}
       </button>
     </section>
   </>

@@ -1,19 +1,27 @@
-import { INTERVIEW_DATA } from './mockInterviewData';
-
 const InterviewScreen = ({
   answer,
+  currentQuestion,
   questionNumber,
+  totalQuestions,
   progressPercent,
   progressFillPercent,
   canGoNext,
+  isAnalyzing,
+  answerError,
   setAnswer,
   handleGoBack,
   handleNextQuestion,
-}) => (
+}) => {
+  const keyPoints = Array.isArray(currentQuestion?.key_points)
+    ? currentQuestion.key_points
+    : [];
+  const tip = keyPoints[0] || currentQuestion?.skill_focus || 'Use specific examples and explain your reasoning clearly.';
+
+  return (
   <section className="mi2-wrapper">
     <div className="mi2-progress">
       <div className="mi2-progress-top">
-        <span>{`Question ${questionNumber} of ${INTERVIEW_DATA.totalQuestions}`}</span>
+        <span>{`Question ${questionNumber} of ${totalQuestions}`}</span>
         <span>{`${progressPercent}% Complete`}</span>
       </div>
       <div
@@ -32,12 +40,12 @@ const InterviewScreen = ({
     </div>
 
     <article className="mi2-card">
-      <span className="mi2-badge">{INTERVIEW_DATA.questionType}</span>
-      <h2>{INTERVIEW_DATA.question}</h2>
+      <span className="mi2-badge">{currentQuestion?.category || 'Interview'}</span>
+      <h2>{currentQuestion?.question}</h2>
 
       <div className="mi2-tip-box">
         <span className="mi2-tip-tag">Tip:</span>
-        <span>{INTERVIEW_DATA.tip}</span>
+        <span>{tip}</span>
       </div>
 
       <div className="mi2-answer-head">
@@ -60,8 +68,15 @@ const InterviewScreen = ({
         className="mi2-answer-input"
       />
 
+      {answerError && <p className="mi2-error">{answerError}</p>}
+
       <div className="mi2-actions">
-        <button type="button" className="mi2-prev-btn" onClick={handleGoBack}>
+        <button
+          type="button"
+          className="mi2-prev-btn"
+          disabled={isAnalyzing}
+          onClick={handleGoBack}
+        >
           Previous
         </button>
         <button
@@ -70,11 +85,16 @@ const InterviewScreen = ({
           disabled={!canGoNext}
           onClick={handleNextQuestion}
         >
-          Next Question
+          {isAnalyzing
+            ? 'Analyzing...'
+            : questionNumber === totalQuestions
+              ? 'Finish Interview'
+              : 'Next Question'}
         </button>
       </div>
     </article>
   </section>
-);
+  );
+};
 
 export default InterviewScreen;

@@ -30,6 +30,8 @@ export const API_CONFIG = {
       MATCH: '/api/cv-jd-match',
       MATCH_HISTORY: '/api/cv-jd-match/history',
       MATCH_DETAILS: (id) => `/api/cv-jd-match/${id}`,
+      MOCK_GENERATE_QUESTIONS: '/api/cv/mock/generate-questions',
+      MOCK_ANALYZE_ANSWER: '/api/cv/mock/analyze-answer',
     },
     PROFILE: {
       GET: '/api/profile',

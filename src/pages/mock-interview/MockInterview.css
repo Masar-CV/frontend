@@ -158,6 +158,13 @@
   color: #717182;
 }
 
+.mi2-error {
+  margin-top: 10px;
+  color: #b42318;
+  font-size: 15px;
+  line-height: 22px;
+}
+
 .mi2-actions {
   margin-top: 20px;
   display: flex;
@@ -176,6 +183,10 @@
   font-size: 16px;
   line-height: 24px;
   padding: 0 24px;
+}
+
+.mi2-prev-btn:disabled {
+  cursor: not-allowed;
 }
 
 .mi2-next-btn {
@@ -327,6 +338,13 @@
   color: #364153;
   font-size: 16px;
   line-height: 24px;
+}
+
+.mi3-card-verdict {
+  margin-top: 8px;
+  color: #155dfc;
+  font-size: 15px;
+  line-height: 22px;
 }
 
 .mi3-card-score {
@@ -536,20 +554,53 @@
   font-weight: 400;
 }
 
-.mi1-field select {
+.mi1-field select,
+.mi1-field input,
+.mi1-description-input {
   width: 100%;
-  height: 48px;
   border: 1px solid transparent;
   border-radius: 10px;
   background: #f3f3f5;
   color: #374151;
   font-size: 16px;
+}
+
+.mi1-field select,
+.mi1-field input {
+  height: 48px;
   padding: 0 16px;
 }
 
-.mi1-field select:focus {
+.mi1-field input[type='file'] {
+  padding: 12px 16px;
+}
+
+.mi1-description-input {
+  min-height: 170px;
+  padding: 14px 16px;
+  resize: vertical;
+  line-height: 24px;
+}
+
+.mi1-field select:focus,
+.mi1-field input:focus,
+.mi1-description-input:focus {
   outline: none;
   border-color: #2563eb;
+}
+
+.mi1-file-name {
+  margin-top: 8px;
+  color: #4a5565;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.mi1-error {
+  margin: -10px 0 20px;
+  color: #b42318;
+  font-size: 15px;
+  line-height: 22px;
 }
 
 .mi1-expect {
@@ -617,8 +668,55 @@
   background: #1d4ed8;
 }
 
+.mi1-start-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .mi1-play {
   font-size: 14px;
+}
+
+.mi3-model-answer {
+  color: #4a5565;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.mi3-gap-card {
+  gap: 20px;
+}
+
+.mi3-courses {
+  border-top: 1px solid #eaecf0;
+  padding-top: 20px;
+}
+
+.mi3-courses p {
+  color: #101828;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 10px;
+}
+
+.mi3-courses ul {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.mi3-courses li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #4a5565;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.mi3-courses a {
+  color: #155dfc;
+  text-decoration: none;
 }
 
 @media (max-width: 1200px) {

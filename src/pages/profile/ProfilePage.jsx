@@ -1,5 +1,3 @@
-import Navbar from '../../components/layout/Navbar';
-import Footer from '../../components/layout/Footer';
 import useProfile from '../../features/profile/hooks/useProfile';
 import useSkills from '../../features/profile/hooks/useSkills';
 import useExperiences from '../../features/profile/hooks/useExperiences';
@@ -24,12 +22,10 @@ const ProfilePage = () => {
   if (profileHook.loading) {
     return (
       <div className="profile-page">
-        <Navbar />
         <div className="profile-loading">
           <div className="profile-spinner" />
           <p>Loading profile...</p>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -37,22 +33,18 @@ const ProfilePage = () => {
   if (profileHook.error) {
     return (
       <div className="profile-page">
-        <Navbar />
         <div className="profile-error">
           <p>{profileHook.error}</p>
           <button className="edit-profile-btn" style={{ margin: '0 auto' }} onClick={() => window.location.reload()}>
             Retry
           </button>
         </div>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="profile-page">
-      <Navbar />
-
       <ProfileHeader
         profile={profileHook.profile}
         isEditing={profileHook.isEditing}
@@ -135,8 +127,6 @@ const ProfilePage = () => {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

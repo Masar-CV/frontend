@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../app/routes/paths';
 import './Footer.css';
 
 const Footer = () => {
@@ -6,38 +7,33 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-content">
-          {/* Brand Section */}
           <div className="footer-brand">
-            <Link to="/" className="footer-logo">MASAR</Link>
+            <Link to={ROUTES.home} className="footer-logo">MASAR</Link>
             <p className="footer-tagline">
               AI-powered career development for ambitious professionals.
             </p>
           </div>
 
-          {/* Links Sections */}
           <div className="footer-links">
-            {/* Product */}
             <div className="footer-column">
               <h4 className="footer-heading">Product</h4>
               <ul className="footer-list">
-                <li><Link to="/dashboard/cv-analysis">CV Analysis</Link></li>
-                <li><Link to="/dashboard/job-tracker">Job Tracker</Link></li>
-                <li><Link to="/dashboard/mock-interview">Mock Interview</Link></li>
-                <li><Link to="/dashboard">Dashboard</Link></li>
+                <li><Link to={ROUTES.dashboardCvAnalysis}>CV Analysis</Link></li>
+                <li><Link to={ROUTES.dashboardJobTracker}>Job Tracker</Link></li>
+                <li><Link to={ROUTES.dashboardMockInterview}>Mock Interview</Link></li>
+                <li><Link to={ROUTES.dashboard}>Dashboard</Link></li>
               </ul>
             </div>
 
-            {/* Resources */}
             <div className="footer-column">
               <h4 className="footer-heading">Resources</h4>
               <ul className="footer-list">
-                <li><Link to="/dashboard/resources">CV Templates</Link></li>
-                <li><Link to="/dashboard/resources">Cover Letters</Link></li>
-                <li><Link to="/dashboard/resources">Learning Paths</Link></li>
+                <li><Link to={ROUTES.dashboardResources}>CV Templates</Link></li>
+                <li><Link to={ROUTES.dashboardResources}>Cover Letters</Link></li>
+                <li><Link to={ROUTES.dashboardResources}>Learning Paths</Link></li>
               </ul>
             </div>
 
-            {/* Company */}
             <div className="footer-column">
               <h4 className="footer-heading">Company</h4>
               <ul className="footer-list">
@@ -50,13 +46,11 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Divider */}
         <div className="footer-divider"></div>
 
-        {/* Copyright */}
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} MASAR. All rights reserved.
+            Copyright {new Date().getFullYear()} MASAR. All rights reserved.
           </p>
         </div>
       </div>
@@ -65,4 +59,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

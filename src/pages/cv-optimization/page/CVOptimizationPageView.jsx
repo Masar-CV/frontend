@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import Navbar from '../../../components/layout/Navbar';
-import Footer from '../../../components/layout/Footer';
+import { ROUTES } from '../../../app/routes/paths';
 import { ThinkingOverlay } from '../../../components/ui';
 import { UploadCard } from '../../../features/cv-optimization';
 
@@ -17,8 +16,6 @@ const CVOptimizationPageView = ({
   handleAnalyze,
 }) => (
   <div className="cv-optimization-page">
-    <Navbar />
-
     <main className="cv-optimization-main">
       <div className="cv-optimization-container">
         <div className="cv-optimization-header">
@@ -48,7 +45,7 @@ const CVOptimizationPageView = ({
               <h3>Login Required</h3>
               <p>Please login to use the CV optimization feature.</p>
             </div>
-            <Link to="/login" className="auth-banner-btn">
+            <Link to={ROUTES.login} className="auth-banner-btn">
               Login Now
             </Link>
           </div>
@@ -91,7 +88,7 @@ const CVOptimizationPageView = ({
             <div className="error-content">
               <span>{error}</span>
               {error.includes('login') && (
-                <Link to="/login" className="error-login-link">
+                <Link to={ROUTES.login} className="error-login-link">
                   Go to Login
                 </Link>
               )}
@@ -161,8 +158,6 @@ const CVOptimizationPageView = ({
         description="Reviewing your resume, improving structure, and preparing your optimized version."
       />
     )}
-
-    <Footer />
   </div>
 );
 

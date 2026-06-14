@@ -1,5 +1,3 @@
-import Footer from '../../../components/layout/Footer';
-import Navbar from '../../../components/layout/Navbar';
 import ApplicationStatusCard from './ApplicationStatusCard';
 import DashboardBottomGrid from './DashboardBottomGrid';
 import KpiGrid from './KpiGrid';
@@ -15,8 +13,6 @@ import {
 
 const DashboardView = () => (
   <div className="dashboard-screen">
-    <Navbar />
-
     <main className="dashboard-main">
       <section className="dashboard-header">
         <h1>Progress Dashboard</h1>
@@ -32,8 +28,6 @@ const DashboardView = () => (
       />
       <DashboardBottomGrid recommendations={recommendations} />
     </main>
-
-    <Footer />
   </div>
 );
 

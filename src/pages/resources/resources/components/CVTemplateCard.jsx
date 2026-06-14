@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../../../app/routes/paths';
 import CVTemplatePreview from './CVTemplatePreview';
 
 const CVTemplateCard = ({ template }) => (
@@ -8,7 +9,7 @@ const CVTemplateCard = ({ template }) => (
     <div className="cv-card-body">
       <h3 className="cv-card-title">{template.title}</h3>
       <span className="cv-card-category">{template.category}</span>
-      <Link to={`/dashboard/resources/editor/${template.id}`} className="cv-card-button">
+      <Link to={ROUTES.dashboardResourceEditor(template.id)} className="cv-card-button">
         Use this template
       </Link>
     </div>

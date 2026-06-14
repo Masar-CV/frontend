@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../app/routes/paths';
 import authService from '../../../services/authService';
 import errorHandler from '../../../utils/errorHandler';
 import { SUCCESS_MESSAGES } from '../../../utils/constants';
@@ -76,7 +77,7 @@ const useLoginController = () => {
       }
 
       console.log(SUCCESS_MESSAGES.LOGIN_SUCCESS);
-      navigate('/');
+      navigate(ROUTES.home);
     } catch (err) {
       const userMessage = errorHandler.getUiMessage(err);
       setError(userMessage);

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import Navbar from '../../../components/layout/Navbar';
-import Footer from '../../../components/layout/Footer';
+import { ROUTES } from '../../../app/routes/paths';
 import {
   OverviewCard,
   SummaryContact,
@@ -13,7 +12,6 @@ const CVOptimizationResultsPageView = ({ data, handleDownload }) => {
   if (!data) {
     return (
       <div className="cv-results-page">
-        <Navbar />
         <main className="cv-results-main">
           <div className="cv-results-container">
             <div className="loading-state">
@@ -22,20 +20,17 @@ const CVOptimizationResultsPageView = ({ data, handleDownload }) => {
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="cv-results-page">
-      <Navbar />
-
       <main className="cv-results-main">
         <div className="cv-results-container">
           <div className="cv-results-header">
             <div className="header-left">
-              <Link to="/cv-optimization" className="back-link">
+              <Link to={ROUTES.cvOptimization} className="back-link">
                 <svg
                   width="20"
                   height="20"
@@ -112,7 +107,7 @@ const CVOptimizationResultsPageView = ({ data, handleDownload }) => {
           </div>
 
           <div className="bottom-actions">
-            <Link to="/cv-optimization" className="action-btn secondary">
+            <Link to={ROUTES.cvOptimization} className="action-btn secondary">
               <svg
                 width="20"
                 height="20"
@@ -146,7 +141,6 @@ const CVOptimizationResultsPageView = ({ data, handleDownload }) => {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 };

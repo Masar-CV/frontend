@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../../app/routes/paths';
 import cvSlopingImage from '../../../assets/images/cv_sloping.svg';
 
 const CTASection = ({ isAuthenticated }) => (
@@ -11,7 +12,7 @@ const CTASection = ({ isAuthenticated }) => (
           adapt to your unique goals. Your future starts here.
         </p>
         {!isAuthenticated && (
-          <Link to="/register" className="cta-button">
+          <Link to={ROUTES.register} className="cta-button">
             Get Started <span className="cta-arrow">-&gt;</span>
           </Link>
         )}

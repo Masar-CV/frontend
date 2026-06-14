@@ -1,5 +1,3 @@
-import Footer from '../../../components/layout/Footer';
-import Navbar from '../../../components/layout/Navbar';
 import InterviewScreen from './InterviewScreen';
 import ResultsScreen from './ResultsScreen';
 import SetupScreen from './SetupScreen';
@@ -12,15 +10,11 @@ const mainClassByScreen = {
 
 const MockInterviewView = (props) => (
   <div className="mi1-page">
-    <Navbar />
-
     <main className={mainClassByScreen[props.screen]}>
       {props.screen === 'setup' && <SetupScreen {...props} />}
       {props.screen === 'interview' && <InterviewScreen {...props} />}
       {props.screen === 'results' && <ResultsScreen {...props} />}
     </main>
-
-    <Footer />
   </div>
 );
 

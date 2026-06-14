@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../../app/routes/paths';
 import colImage from '../../../assets/images/Col.png';
 
 const HeroSection = ({ isAuthenticated }) => (
@@ -30,11 +31,11 @@ const HeroSection = ({ isAuthenticated }) => (
 
         <div className="hero-buttons">
           {!isAuthenticated && (
-            <Link to="/register" className="btn-get-started">
+            <Link to={ROUTES.register} className="btn-get-started">
               Get Started <span className="btn-arrow">-&gt;</span>
             </Link>
           )}
-          <Link to="" className="btn-explore">
+          <Link to={ROUTES.dashboardResources} className="btn-explore">
             Explore Features
           </Link>
         </div>

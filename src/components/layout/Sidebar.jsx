@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../app/routes/paths';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -7,19 +8,19 @@ const Sidebar = () => {
       <div className="sidebar-content">
         <h2 className="sidebar-logo">Masar</h2>
         <nav className="sidebar-nav">
-          <Link to="/dashboard" className="sidebar-link">
+          <Link to={ROUTES.dashboard} className="sidebar-link">
             Dashboard
           </Link>
-          <Link to="/dashboard/cv-analysis" className="sidebar-link">
+          <Link to={ROUTES.dashboardCvAnalysis} className="sidebar-link">
             CV Analysis
           </Link>
-          <Link to="/dashboard/mock-interview" className="sidebar-link">
+          <Link to={ROUTES.dashboardMockInterview} className="sidebar-link">
             Mock Interview
           </Link>
-          <Link to="/dashboard/job-tracker" className="sidebar-link">
+          <Link to={ROUTES.dashboardJobTracker} className="sidebar-link">
             Job Tracker
           </Link>
-          <Link to="/dashboard/resources" className="sidebar-link">
+          <Link to={ROUTES.dashboardResources} className="sidebar-link">
             Resources
           </Link>
         </nav>

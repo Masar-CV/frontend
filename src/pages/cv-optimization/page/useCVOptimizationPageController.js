@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../app/routes/paths';
 import {
   useCVOptimization,
   OPTIMIZATION_STATUS,
@@ -24,7 +25,7 @@ const useCVOptimizationPageController = () => {
   const handleAnalyze = async () => {
     const result = await handleOptimize();
     if (result) {
-      navigate('/cv-optimization/results', { state: { result } });
+      navigate(ROUTES.cvOptimizationResults, { state: { result } });
     }
   };
 

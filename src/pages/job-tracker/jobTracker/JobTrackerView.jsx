@@ -1,6 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import Footer from '../../../components/layout/Footer';
-import Navbar from '../../../components/layout/Navbar';
 import jobApplicationService, {
   JOB_APPLICATION_STATUS,
   JOB_APPLICATION_STATUS_LABELS,
@@ -318,8 +316,6 @@ const JobTrackerView = () => {
 
   return (
     <div className="job-tracker-screen">
-      <Navbar />
-
       <main className="job-tracker-main">
         <JobTrackerHero onAddJob={handleOpenModal} />
         <SummaryStats stats={summaryStats} />
@@ -372,8 +368,6 @@ const JobTrackerView = () => {
           onSubmit={handleSubmit}
         />
       )}
-
-      <Footer />
     </div>
   );
 };

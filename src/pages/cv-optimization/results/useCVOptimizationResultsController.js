@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../app/routes/paths';
 import { useCVOptimization } from '../../../features/cv-optimization';
 
 const useCVOptimizationResultsController = () => {
@@ -11,7 +12,7 @@ const useCVOptimizationResultsController = () => {
     if (location.state?.result) {
       setResultData(location.state.result);
     } else if (!result) {
-      navigate('/cv-optimization');
+      navigate(ROUTES.cvOptimization);
     }
   }, [location.state, result, setResultData, navigate]);
 

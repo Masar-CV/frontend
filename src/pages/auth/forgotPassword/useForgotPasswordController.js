@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../app/routes/paths';
 import authService from '../../../services/authService';
 import errorHandler from '../../../utils/errorHandler';
 import {
@@ -125,7 +126,7 @@ const useForgotPasswordController = () => {
       setSuccessMessage('Password reset successfully! Redirecting to login...');
 
       setTimeout(() => {
-        navigate('/login');
+        navigate(ROUTES.login);
       }, 2000);
     } catch (err) {
       const userMessage = errorHandler.getUiMessage(err);

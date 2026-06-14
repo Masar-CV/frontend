@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../app/routes/paths';
 import tokenManager from '../../utils/tokenManager';
 import './Navbar.css';
 
@@ -68,7 +69,7 @@ const Navbar = () => {
     tokenManager.clearAuthData();
     setProfileDrawerOpen(false);
     closeMobileMenu();
-    navigate('/');
+    navigate(ROUTES.home);
   };
 
   const userDisplayName = currentUser?.fullName || currentUser?.email || 'My Profile';
@@ -78,7 +79,7 @@ const Navbar = () => {
       <div className="navbar-inner">
         {/* Left: Logo */}
         <div className="navbar-logo">
-          <Link to="/">MASAR</Link>
+          <Link to={ROUTES.home}>MASAR</Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -94,12 +95,12 @@ const Navbar = () => {
 
         {/* Center: Main navigation */}
         <nav className="navbar-nav">
-          <NavLink to="/" className="nav-link">
+          <NavLink to={ROUTES.home} className="nav-link">
             Home
           </NavLink>
 
           <div className="nav-item-with-menu">
-            <NavLink to="/dashboard/resources" className="nav-link">
+            <NavLink to={ROUTES.dashboardResources} className="nav-link">
               Resources
             </NavLink>
           </div>
@@ -109,26 +110,26 @@ const Navbar = () => {
               Services <span className="nav-caret">▾</span>
             </button>
             <div className="nav-dropdown">
-              <Link to="/dashboard/mock-interview" className="nav-dropdown-item">
+              <Link to={ROUTES.dashboardMockInterview} className="nav-dropdown-item">
                 Mock Interview
               </Link>
-              <Link to="/dashboard/cv-analysis" className="nav-dropdown-item">
+              <Link to={ROUTES.dashboardCvAnalysis} className="nav-dropdown-item">
                 CV Analysis
               </Link>
-              <Link to="/dashboard/resources" className="nav-dropdown-item">
+              <Link to={ROUTES.dashboardResources} className="nav-dropdown-item">
                 Career Development
               </Link>
             </div>
           </div>
 
-          <NavLink to="/dashboard" className="nav-link">
+          <NavLink to={ROUTES.dashboard} className="nav-link">
             Dashboard
           </NavLink>
 
-          <NavLink to="/dashboard/job-tracker" className="nav-link">
+          <NavLink to={ROUTES.dashboardJobTracker} className="nav-link">
             Job Tracker
           </NavLink>
-          <NavLink to="/cv-optimization" className="nav-link">
+          <NavLink to={ROUTES.cvOptimization} className="nav-link">
             CV Optimization
           </NavLink>
         </nav>
@@ -137,10 +138,10 @@ const Navbar = () => {
         <div className="navbar-actions">
           {!isAuthenticated && (
             <>
-              <Link to="/login" className="nav-login-link">
+              <Link to={ROUTES.login} className="nav-login-link">
                 Log In
               </Link>
-              <Link to="/register" className="nav-cta-button">
+              <Link to={ROUTES.register} className="nav-cta-button">
                 Get Started
               </Link>
             </>
@@ -172,7 +173,7 @@ const Navbar = () => {
               {profileDrawerOpen && (
                 <div className="profile-drawer" role="menu" aria-label="Profile menu">
                   <Link
-                    to="/profile"
+                    to={ROUTES.profile}
                     className="profile-drawer-link"
                     role="menuitem"
                     onClick={() => setProfileDrawerOpen(false)}
@@ -203,14 +204,14 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
         <nav className="mobile-nav">
-          <NavLink to="/" className="mobile-nav-link" onClick={closeMobileMenu}>
+          <NavLink to={ROUTES.home} className="mobile-nav-link" onClick={closeMobileMenu}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
             Home
           </NavLink>
-          <NavLink to="/dashboard" className="mobile-nav-link" onClick={closeMobileMenu}>
+          <NavLink to={ROUTES.dashboard} className="mobile-nav-link" onClick={closeMobileMenu}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="3" width="7" height="7" />
               <rect x="14" y="3" width="7" height="7" />
@@ -219,7 +220,7 @@ const Navbar = () => {
             </svg>
             Dashboard
           </NavLink>
-          <NavLink to="/cv-optimization" className="mobile-nav-link" onClick={closeMobileMenu}>
+          <NavLink to={ROUTES.cvOptimization} className="mobile-nav-link" onClick={closeMobileMenu}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
               <polyline points="14 2 14 8 20 8" />
@@ -228,14 +229,14 @@ const Navbar = () => {
             </svg>
             CV Optimization
           </NavLink>
-          <NavLink to="/dashboard/job-tracker" className="mobile-nav-link" onClick={closeMobileMenu}>
+          <NavLink to={ROUTES.dashboardJobTracker} className="mobile-nav-link" onClick={closeMobileMenu}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
             </svg>
             Job Tracker
           </NavLink>
-          <NavLink to="/dashboard/resources" className="mobile-nav-link" onClick={closeMobileMenu}>
+          <NavLink to={ROUTES.dashboardResources} className="mobile-nav-link" onClick={closeMobileMenu}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
@@ -246,22 +247,22 @@ const Navbar = () => {
           <div className="mobile-services-block">
             <p className="mobile-services-title">Services</p>
             <p className="mobile-services-hint">Quick access to key tools</p>
-            <NavLink to="/dashboard/mock-interview" className="mobile-service-link" onClick={closeMobileMenu}>
+            <NavLink to={ROUTES.dashboardMockInterview} className="mobile-service-link" onClick={closeMobileMenu}>
               <span className="mobile-service-name">Mock Interview</span>
               <span className="mobile-service-desc">Practice with AI simulations</span>
             </NavLink>
-            <NavLink to="/dashboard/cv-analysis" className="mobile-service-link" onClick={closeMobileMenu}>
+            <NavLink to={ROUTES.dashboardCvAnalysis} className="mobile-service-link" onClick={closeMobileMenu}>
               <span className="mobile-service-name">CV Analysis</span>
               <span className="mobile-service-desc">Match your CV with job requirements</span>
             </NavLink>
-            <NavLink to="/dashboard/resources" className="mobile-service-link" onClick={closeMobileMenu}>
+            <NavLink to={ROUTES.dashboardResources} className="mobile-service-link" onClick={closeMobileMenu}>
               <span className="mobile-service-name">Career Development</span>
               <span className="mobile-service-desc">Explore learning resources</span>
             </NavLink>
           </div>
 
           {isAuthenticated && (
-            <NavLink to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>
+            <NavLink to={ROUTES.profile} className="mobile-nav-link" onClick={closeMobileMenu}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
@@ -273,10 +274,10 @@ const Navbar = () => {
 
         {!isAuthenticated && (
           <div className="mobile-menu-footer">
-            <Link to="/login" className="mobile-login-btn" onClick={closeMobileMenu}>
+            <Link to={ROUTES.login} className="mobile-login-btn" onClick={closeMobileMenu}>
               Log In
             </Link>
-            <Link to="/register" className="mobile-register-btn" onClick={closeMobileMenu}>
+            <Link to={ROUTES.register} className="mobile-register-btn" onClick={closeMobileMenu}>
               Get Started
             </Link>
           </div>

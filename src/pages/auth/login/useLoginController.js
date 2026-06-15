@@ -17,6 +17,7 @@ const useLoginController = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -87,16 +88,35 @@ const useLoginController = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setError('');
+    setGoogleLoading(true);
+
+    try {
+      await authService.loginWithGoogle();
+      console.log(SUCCESS_MESSAGES.GOOGLE_LOGIN_SUCCESS);
+      navigate(ROUTES.home);
+    } catch (err) {
+      const userMessage = errorHandler.getUiMessage(err) || err.message;
+      setError(userMessage);
+      errorHandler.logError('Login Component - Google Sign-In', err);
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return {
     formData,
     rememberMe,
     showPassword,
     loading,
+    googleLoading,
     error,
     handleInputChange,
     handleRememberMeChange,
     handleTogglePasswordVisibility,
     handleLogin,
+    handleGoogleSignIn,
   };
 };
 

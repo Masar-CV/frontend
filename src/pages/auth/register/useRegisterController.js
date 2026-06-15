@@ -18,6 +18,7 @@ const useRegisterController = () => {
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
   const clearErrorIfNeeded = () => {
@@ -71,14 +72,33 @@ const useRegisterController = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setError('');
+    setGoogleLoading(true);
+
+    try {
+      await authService.loginWithGoogle();
+      console.log(SUCCESS_MESSAGES.GOOGLE_LOGIN_SUCCESS);
+      navigate(ROUTES.home);
+    } catch (err) {
+      const userMessage = errorHandler.getUiMessage(err) || err.message;
+      setError(userMessage);
+      errorHandler.logError('Register Component - Google Sign-In', err);
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return {
     formData,
     termsAccepted,
     loading,
+    googleLoading,
     error,
     handleInputChange,
     handleTermsChange,
     handleRegister,
+    handleGoogleSignIn,
   };
 };
 

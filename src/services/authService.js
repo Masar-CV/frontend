@@ -1,4 +1,5 @@
 import httpClient from './httpClient';
+import googleAuthService from './googleAuthService';
 import { API_CONFIG } from '../utils/constants';
 import tokenManager from '../utils/tokenManager';
 import errorHandler from '../utils/errorHandler';
@@ -29,6 +30,27 @@ const authService = {
       return response.data;
     } catch (error) {
       errorHandler.logError('authService.login', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Login user with Google access token
+   * @returns {Promise<Object>} - User data with token
+   * @throws {Error} - If sign-in fails
+   */
+  loginWithGoogle: async () => {
+    try {
+      const accessToken = await googleAuthService.getAccessToken();
+      const response = await httpClient.post(API_CONFIG.ENDPOINTS.AUTH.GOOGLE, {
+        accessToken,
+      });
+
+      tokenManager.saveAuthData(response.data);
+
+      return response.data;
+    } catch (error) {
+      errorHandler.logError('authService.loginWithGoogle', error);
       throw error;
     }
   },

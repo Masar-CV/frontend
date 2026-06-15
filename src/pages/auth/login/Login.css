@@ -78,6 +78,57 @@
   gap: 1.5rem;
 }
 
+.social-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-social {
+  flex: 1;
+  background-color: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-social:hover:not(:disabled) {
+  background-color: #f9fafb;
+}
+
+.btn-social:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.social-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+
+.separator-line {
+  flex: 1;
+  height: 1px;
+  background-color: #d1d5db;
+}
+
+.separator-text {
+  padding: 0 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  background-color: #ffffff;
+}
+
 .form-group {
   width: 100%;
 }

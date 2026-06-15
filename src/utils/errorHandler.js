@@ -14,8 +14,12 @@ const errorHandler = {
   parseError: (error) => {
     // Network error
     if (!error.response) {
+      const plainMessage = error?.message && error.message !== 'Network Error'
+        ? error.message
+        : ERROR_MESSAGES.NETWORK_ERROR;
+
       return {
-        message: ERROR_MESSAGES.NETWORK_ERROR,
+        message: plainMessage,
         type: 'network',
         status: null,
         details: error.message,
@@ -25,6 +29,7 @@ const errorHandler = {
     const { status, data } = error.response;
     let message = ERROR_MESSAGES.UNKNOWN_ERROR;
     let details = null;
+    const fallbackMessage = data?.detail || data?.title || data?.message || data?.type;
 
     // Handle validation errors (400)
     if (status === 400) {
@@ -32,15 +37,17 @@ const errorHandler = {
         // Validation error with field details
         message = ERROR_MESSAGES.VALIDATION_ERROR;
         details = data.errors;
-      } else if (data.message) {
+      } else if (fallbackMessage) {
         // Business logic error
-        message = errorHandler.parseMessage(data.message);
+        message = errorHandler.parseMessage(fallbackMessage);
       }
     }
 
     // Handle authentication errors (401)
     if (status === 401) {
-      message = data.message ? errorHandler.parseMessage(data.message) : ERROR_MESSAGES.INVALID_CREDENTIALS;
+      message = fallbackMessage
+        ? errorHandler.parseMessage(fallbackMessage)
+        : ERROR_MESSAGES.INVALID_CREDENTIALS;
     }
 
     // Handle server errors (5xx)

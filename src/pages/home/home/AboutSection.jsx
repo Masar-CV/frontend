@@ -3,7 +3,7 @@ import vectorLine from '../../../assets/images/Vector 14.png';
 import { features } from './homeData';
 
 const AboutSection = () => (
-  <section className="about-section">
+  <section className="about-section" id="features-section">
     <div className="about-header">
       <h6 className="about-title">About MASAR</h6>
       <img src={vectorLine} alt="" className="about-underline" />

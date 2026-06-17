@@ -3,6 +3,10 @@ const RESOURCES_ROOT = `${DASHBOARD_ROOT}/resources`;
 
 export const ROUTES = {
   home: '/',
+  about: '/about',
+  contact: '/contact',
+  privacy: '/privacy',
+  terms: '/terms',
   login: '/login',
   register: '/register',
   forgotPassword: '/forgot-password',
@@ -19,6 +23,10 @@ export const ROUTES = {
 };
 
 export const ROUTE_SEGMENTS = {
+  about: 'about',
+  contact: 'contact',
+  privacy: 'privacy',
+  terms: 'terms',
   login: 'login',
   register: 'register',
   forgotPassword: 'forgot-password',

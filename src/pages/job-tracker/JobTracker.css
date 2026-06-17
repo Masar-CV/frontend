@@ -114,6 +114,15 @@
   line-height: 1.45;
 }
 
+.job-tracker-empty-state {
+  padding: 28px 24px;
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: #111827;
+}
+
 .job-tracker-state.error {
   border-color: #fecaca;
   background: #fef2f2;

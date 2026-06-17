@@ -308,6 +308,7 @@
 .about-section {
   padding: 4rem 3rem;
   background-color: #ffffff;
+  scroll-margin-top: 96px;
 }
 
 .about-header {

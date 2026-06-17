@@ -18,7 +18,6 @@ export const API_CONFIG = {
   ENDPOINTS: {
     AUTH: {
       LOGIN: '/api/auth/login',
-      GOOGLE: '/api/Auth/google',
       REGISTER: '/api/auth/register',
       FORGOT_PASSWORD: '/api/auth/forgot-password',
       VERIFY_OTP: '/api/auth/verify-otp',
@@ -87,14 +86,7 @@ export const ERROR_MESSAGES = {
 export const SUCCESS_MESSAGES = {
   LOGIN_SUCCESS: 'Login successful!',
   REGISTER_SUCCESS: 'Registration successful!',
-  GOOGLE_LOGIN_SUCCESS: 'Google sign-in successful!',
   PASSWORD_RESET_SENT: 'Password reset link has been sent to your email.',
-};
-
-export const GOOGLE_CONFIG = {
-  CLIENT_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID || '',
-  SCRIPT_URL: 'https://accounts.google.com/gsi/client',
-  SCOPES: 'openid email profile',
 };
 
 // Legacy API endpoints (keep for compatibility)

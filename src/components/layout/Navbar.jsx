@@ -122,9 +122,9 @@ const Navbar = () => {
             </div>
           </div>
 
-          <NavLink to={ROUTES.dashboard} className="nav-link">
+          {/* <NavLink to={ROUTES.dashboard} className="nav-link">
             Dashboard
-          </NavLink>
+          </NavLink> */}
 
           <NavLink to={ROUTES.dashboardJobTracker} className="nav-link">
             Job Tracker
@@ -149,14 +149,6 @@ const Navbar = () => {
 
           {isAuthenticated && (
             <div className="navbar-user-actions" ref={profileDrawerRef}>
-              <button className="notification-btn" aria-label="Notifications">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                </svg>
-                <span className="notification-badge">1</span>
-              </button>
-
               <button
                 type="button"
                 className={`profile-avatar-btn ${profileDrawerOpen ? 'active' : ''}`}
@@ -211,7 +203,7 @@ const Navbar = () => {
             </svg>
             Home
           </NavLink>
-          <NavLink to={ROUTES.dashboard} className="mobile-nav-link" onClick={closeMobileMenu}>
+          {/* <NavLink to={ROUTES.dashboard} className="mobile-nav-link" onClick={closeMobileMenu}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="3" width="7" height="7" />
               <rect x="14" y="3" width="7" height="7" />
@@ -219,7 +211,7 @@ const Navbar = () => {
               <rect x="3" y="14" width="7" height="7" />
             </svg>
             Dashboard
-          </NavLink>
+          </NavLink> */}
           <NavLink to={ROUTES.cvOptimization} className="mobile-nav-link" onClick={closeMobileMenu}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />

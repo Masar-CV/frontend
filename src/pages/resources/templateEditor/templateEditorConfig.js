@@ -30,6 +30,5 @@ export const EDITOR_SECTION_TITLES = {
 };
 
 export const DOWNLOAD_HINTS = {
-  latex: 'Result shows formatted output. Switch to code to view exact LaTeX source, then download .tex.',
-  default: 'LaTeX download gives you an editable template file. PDF uses your browser print dialog.',
+  default: 'Use the PDF button to export a print-ready copy of your CV.',
 };

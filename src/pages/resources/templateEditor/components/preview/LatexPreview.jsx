@@ -2,41 +2,9 @@ import { splitDescriptionLines } from '../../templateEditorUtils';
 
 const LatexPreview = ({
   cvData,
-  latexPreview,
-  latexPreviewMode,
-  setLatexPreviewMode,
   visibleCustomSections,
 }) => (
-  <>
-    <div className="latex-preview-switch" role="tablist" aria-label="LaTeX preview mode">
-      <button
-        type="button"
-        role="tab"
-        aria-selected={latexPreviewMode === 'rendered'}
-        className={`latex-preview-switch-button ${latexPreviewMode === 'rendered' ? 'active' : ''}`}
-        onClick={() => setLatexPreviewMode('rendered')}
-      >
-        Result
-      </button>
-      <button
-        type="button"
-        role="tab"
-        aria-selected={latexPreviewMode === 'code'}
-        className={`latex-preview-switch-button ${latexPreviewMode === 'code' ? 'active' : ''}`}
-        onClick={() => setLatexPreviewMode('code')}
-      >
-        LaTeX Code
-      </button>
-    </div>
-
-    {latexPreviewMode === 'code' ? (
-      <article className="latex-preview-paper" aria-label="LaTeX template code preview">
-        <pre className="latex-code-preview">{latexPreview}</pre>
-      </article>
-    ) : (
-      <LatexRenderedPreview cvData={cvData} visibleCustomSections={visibleCustomSections} />
-    )}
-  </>
+  <LatexRenderedPreview cvData={cvData} visibleCustomSections={visibleCustomSections} />
 );
 
 const LatexRenderedPreview = ({ cvData, visibleCustomSections }) => (

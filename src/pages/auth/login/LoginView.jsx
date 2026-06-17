@@ -1,20 +1,17 @@
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../app/routes/paths';
 import cvImage from '../../../assets/images/cv.svg';
-import SocialAuthButtons from '../register/SocialAuthButtons';
 
 const LoginView = ({
   formData,
   rememberMe,
   showPassword,
   loading,
-  googleLoading,
   error,
   handleInputChange,
   handleRememberMeChange,
   handleTogglePasswordVisibility,
   handleLogin,
-  handleGoogleSignIn,
 }) => (
   <div className="login-page">
     <div className="login-left">
@@ -38,18 +35,6 @@ const LoginView = ({
         </div>
 
         <form className="login-form" onSubmit={handleLogin}>
-          <SocialAuthButtons
-            loading={loading}
-            googleLoading={googleLoading}
-            onGoogleSignIn={handleGoogleSignIn}
-          />
-
-          <div className="separator">
-            <div className="separator-line"></div>
-            <span className="separator-text">or</span>
-            <div className="separator-line"></div>
-          </div>
-
           {error && <div className="form-error">{error}</div>}
 
           <div className="form-group">
@@ -60,7 +45,7 @@ const LoginView = ({
               className="form-input"
               value={formData.email}
               onChange={handleInputChange}
-              disabled={loading || googleLoading}
+              disabled={loading}
               required
             />
           </div>
@@ -74,14 +59,14 @@ const LoginView = ({
                 className="form-input password-input"
                 value={formData.password}
                 onChange={handleInputChange}
-                disabled={loading || googleLoading}
+                disabled={loading}
                 required
               />
               <button
                 type="button"
                 className="password-toggle-btn"
                 onClick={handleTogglePasswordVisibility}
-                disabled={loading || googleLoading}
+                disabled={loading}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? (
@@ -115,7 +100,7 @@ const LoginView = ({
                 className="checkbox-input"
                 checked={rememberMe}
                 onChange={handleRememberMeChange}
-                disabled={loading || googleLoading}
+                disabled={loading}
               />
               <span>Remember me</span>
             </label>
@@ -124,7 +109,7 @@ const LoginView = ({
             </Link>
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={loading || googleLoading}>
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
 

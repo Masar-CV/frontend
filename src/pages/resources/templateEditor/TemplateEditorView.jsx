@@ -12,8 +12,6 @@ const TemplateEditorView = (props) => (
           <h2 className="template-editor-preview-title">Preview</h2>
           <PreviewPanel {...props} />
           <DownloadActions
-            isLatexTemplate={props.isLatexTemplate}
-            onDownloadLatex={props.handleDownloadLatex}
             onDownloadPdf={props.handleDownloadPdf}
           />
         </section>

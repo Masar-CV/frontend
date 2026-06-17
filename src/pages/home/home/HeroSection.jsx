@@ -35,9 +35,9 @@ const HeroSection = ({ isAuthenticated }) => (
               Get Started <span className="btn-arrow">-&gt;</span>
             </Link>
           )}
-          <Link to={ROUTES.dashboardResources} className="btn-explore">
+          <a href="#features-section" className="btn-explore">
             Explore Features
-          </Link>
+          </a>
         </div>
       </div>
 

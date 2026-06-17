@@ -1,18 +1,15 @@
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../app/routes/paths';
 import cvImage from '../../../assets/images/cv.svg';
-import SocialAuthButtons from './SocialAuthButtons';
 
 const RegisterView = ({
   formData,
   termsAccepted,
   loading,
-  googleLoading,
   error,
   handleInputChange,
   handleTermsChange,
   handleRegister,
-  handleGoogleSignIn,
 }) => (
   <div className="register-page">
     <div className="register-left">
@@ -35,18 +32,6 @@ const RegisterView = ({
         </div>
 
         <form className="register-form" onSubmit={handleRegister}>
-          <SocialAuthButtons
-            loading={loading}
-            googleLoading={googleLoading}
-            onGoogleSignIn={handleGoogleSignIn}
-          />
-
-          <div className="separator">
-            <div className="separator-line"></div>
-            <span className="separator-text">or</span>
-            <div className="separator-line"></div>
-          </div>
-
           {error && <div className="form-error">{error}</div>}
 
           <div className="form-group">
@@ -57,7 +42,7 @@ const RegisterView = ({
               className="form-input"
               value={formData.fullName}
               onChange={handleInputChange}
-              disabled={loading || googleLoading}
+              disabled={loading}
               required
             />
           </div>
@@ -70,7 +55,7 @@ const RegisterView = ({
               className="form-input"
               value={formData.email}
               onChange={handleInputChange}
-              disabled={loading || googleLoading}
+              disabled={loading}
               required
             />
           </div>
@@ -83,7 +68,7 @@ const RegisterView = ({
               className="form-input"
               value={formData.password}
               onChange={handleInputChange}
-              disabled={loading || googleLoading}
+              disabled={loading}
               required
             />
           </div>
@@ -94,17 +79,17 @@ const RegisterView = ({
               className="checkbox-input"
               checked={termsAccepted}
               onChange={handleTermsChange}
-              disabled={loading || googleLoading}
+              disabled={loading}
             />
             <span>
               I agree to the{' '}
-              <Link to="/terms" className="terms-link">
+              <Link to={ROUTES.terms} className="terms-link">
                 Terms & Privacy
               </Link>
             </span>
           </label>
 
-          <button type="submit" className="btn btn-primary" disabled={loading || googleLoading}>
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? 'Creating Account...' : 'Sign Up'}
           </button>
 

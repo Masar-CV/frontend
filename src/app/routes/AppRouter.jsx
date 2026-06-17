@@ -1,5 +1,9 @@
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 import Home from '../../pages/home/Home';
+import AboutPage from '../../pages/company/AboutPage';
+import ContactPage from '../../pages/company/ContactPage';
+import PrivacyPage from '../../pages/company/PrivacyPage';
+import TermsPage from '../../pages/company/TermsPage';
 import Login from '../../pages/auth/Login';
 import Register from '../../pages/auth/Register';
 import ForgotPassword from '../../pages/auth/ForgotPassword';
@@ -22,6 +26,22 @@ const routeConfig = [
     element: <SiteLayout />,
     children: [
       { index: true, element: <Home /> },
+      {
+        path: ROUTE_SEGMENTS.about,
+        element: <AboutPage />,
+      },
+      {
+        path: ROUTE_SEGMENTS.contact,
+        element: <ContactPage />,
+      },
+      {
+        path: ROUTE_SEGMENTS.privacy,
+        element: <PrivacyPage />,
+      },
+      {
+        path: ROUTE_SEGMENTS.terms,
+        element: <TermsPage />,
+      },
       {
         path: ROUTE_SEGMENTS.cvOptimization,
         element: <CVOptimizationPage />,

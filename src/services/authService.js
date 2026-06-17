@@ -1,5 +1,4 @@
 import httpClient from './httpClient';
-import googleAuthService from './googleAuthService';
 import { API_CONFIG } from '../utils/constants';
 import tokenManager from '../utils/tokenManager';
 import errorHandler from '../utils/errorHandler';
@@ -8,6 +7,32 @@ import errorHandler from '../utils/errorHandler';
  * Auth Service - Manages all authentication API calls
  * Single responsibility: Handle authentication operations
  */
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const isNetworkError = (error) => {
+  return !error?.response || error?.message === 'Network Error';
+};
+
+const requestWithRetry = async (requestFn, { retries = 1, delayMs = 500 } = {}) => {
+  let lastError;
+
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      return await requestFn();
+    } catch (error) {
+      lastError = error;
+
+      if (attempt === retries || !isNetworkError(error)) {
+        throw error;
+      }
+
+      await wait(delayMs);
+    }
+  }
+
+  throw lastError;
+};
 
 const authService = {
   /**
@@ -19,10 +44,12 @@ const authService = {
    */
   login: async (email, password) => {
     try {
-      const response = await httpClient.post(API_CONFIG.ENDPOINTS.AUTH.LOGIN, {
-        email,
-        password,
-      });
+      const response = await requestWithRetry(() =>
+        httpClient.post(API_CONFIG.ENDPOINTS.AUTH.LOGIN, {
+          email,
+          password,
+        })
+      );
 
       // Save token and user data
       tokenManager.saveAuthData(response.data);
@@ -30,27 +57,6 @@ const authService = {
       return response.data;
     } catch (error) {
       errorHandler.logError('authService.login', error);
-      throw error;
-    }
-  },
-
-  /**
-   * Login user with Google access token
-   * @returns {Promise<Object>} - User data with token
-   * @throws {Error} - If sign-in fails
-   */
-  loginWithGoogle: async () => {
-    try {
-      const accessToken = await googleAuthService.getAccessToken();
-      const response = await httpClient.post(API_CONFIG.ENDPOINTS.AUTH.GOOGLE, {
-        accessToken,
-      });
-
-      tokenManager.saveAuthData(response.data);
-
-      return response.data;
-    } catch (error) {
-      errorHandler.logError('authService.loginWithGoogle', error);
       throw error;
     }
   },
@@ -67,12 +73,14 @@ const authService = {
    */
   register: async (userData) => {
     try {
-      const response = await httpClient.post(API_CONFIG.ENDPOINTS.AUTH.REGISTER, {
-        email: userData.email,
-        password: userData.password,
-        fullName: userData.fullName,
-        role: userData.role || 'Student',
-      });
+      const response = await requestWithRetry(() =>
+        httpClient.post(API_CONFIG.ENDPOINTS.AUTH.REGISTER, {
+          email: userData.email,
+          password: userData.password,
+          fullName: userData.fullName,
+          role: userData.role || 'Student',
+        })
+      );
 
       // Save token and user data
       tokenManager.saveAuthData(response.data);

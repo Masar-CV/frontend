@@ -339,8 +339,8 @@ const JobTrackerView = () => {
         )}
 
         {!isLoading && !loadError && applications.length === 0 && recentApplications.length === 0 && (
-          <p className="job-tracker-state">
-            No job applications yet.
+          <p className="job-tracker-state job-tracker-empty-state" role="status">
+            To start your job tracker system
           </p>
         )}
 
